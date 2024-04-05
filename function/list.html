@@ -58,11 +58,11 @@
       </header>
 
       <main class="w-full h-full flex justify-center">
-        <section class="w-[1440px] h-full">
+        <section class="w-[1440px] flex flex-col gap-6 pt-6 h-full">
           <header class="w-full text-white text-3xl">Suas Tarefas</header>
-          <header class="w-full text-white text-xl flex">
+          <header class="w-full text-white text-xl gap-2 flex">
             <input placeholder="Procure por tarefas ja existentes"
-              class="w-[1100px] bg-[#0D0D0D] border border-solid border-[#3f3f3f] h-[42px] rounded-lg placeholder:text-sm placeholder:text-[#616161] pl-4 pb-1"
+              class="max-w-[80%] w-full bg-[#0D0D0D] text-sm border border-solid border-[#3f3f3f] h-[42px] rounded-lg placeholder:text-sm placeholder:text-[#616161] pl-4 pb-1"
               type="text"
             />
             <button
@@ -76,12 +76,20 @@
               <img src="/resources/images/pen.svg" alt=""></span>
             </button>
             <button
-              class="bg-[#1F1F1F] rounded-lg text-black font-medium justify-center border border-solid border-[#3F3F3F] text-sm w-[42px] h-[42px] flex gap-2 items-center"
+              class="bg-[#520005] rounded-lg text-black font-medium justify-center border border-solid border-[#FF0000] text-sm w-[42px] h-[42px] flex gap-2 items-center"
             >
               <img src="/resources/images/trash.svg" alt=""></span>
             </button>
           </header>
+          <div class="w-[450px] relative h-[250px] border border-solid border-[#3F3F3F] rounded-lg bg-[#1F1F1F]">
+              <header class="w-full h-[50px] mt-3 flex items-center pl-6"><span class="text-white text-2xl">Welcome</span></header>
+            <footer class="h-[50px] gap-2 w-full flex items-center px-4 border-t border-solid border-[#3F3F3F] absolute bottom-0">
+                <img src="/resources/images/calendar.svg" alt=""> <span class="text-[#ACACAC]">April 4, 2024</span>
+            </footer>
+          </div>
         </section>
+
+
       </main>
 
       <footer class="absolute flex flex-col bottom-0 w-full h-[157px]">
