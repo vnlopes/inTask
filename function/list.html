@@ -6,7 +6,11 @@
     <title>Não deixe suas tarefas para depois.</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/resources/css/style.css" />
-    <link rel="shortcut icon" href="/resources/images/logo-icon.svg" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="/resources/images/logo-icon.svg"
+      type="image/x-icon"
+    />
   </head>
   <body class="bg-[#040404] relative min-h-screen flex items-center flex-col">
     <img
@@ -22,9 +26,9 @@
         <nav
           class="center-header px-[70px] relative max-w-[1440px] w-full flex items-center justify-between"
         >
-       <a href="/index.html">
-        <img src="/resources/images/logo.svg" alt="">
-       </a>
+          <a href="/index.html">
+            <img src="/resources/images/logo.svg" alt="" />
+          </a>
           <ul class="links font-medium flex gap-8">
             <a class="text-white" href="#">Inicio</a>
             <a class="text-white" href="#">Pagamento</a>
@@ -53,43 +57,32 @@
         </nav>
       </header>
 
-      <section
-        class="w-full w-auto relative min-h-[900px] h-auto h-auto flex select-none justify-center overflow-hidden"
-      >
-        <section
-          class="max-w-[1400px] px-[70px] w-screen h-fit flex justify-between items-center font-bold text-7xl"
-        >
-          <div class="w-[600px] flex items-start gap-8 flex-col">
-            <span class="text-wrap text-white">
-              Controlar as tarefas nunca foi
-              <span
-                class="bg-clip-text text-transparent bg-gradient-to-r from-[#FF2E00] to-[#FF5C00]"
-              >
-                tão fácil
-              </span>
-            </span>
-            <div class="flex gap-6 items-center">
-              <a href="/function/list.html"
-                class="py-3 px-6 bg-white hover:bg-zinc-200 transition-[.2s] rounded-[8px] w-fit h-fit font-medium text-xl"
-              >
-                Começar agora
-              </a>
-              <button
-                class="py-3 px-6 bg-[#060606] rounded-[8px] w-fit text-white border-solid border-zinc-700 hover:bg-[#040404] transition-[.2s] border h-fit font-medium text-xl"
-              >
-                Demonstração
-              </button>
-            </div>
-            <img class="h-[24px]" src="/resources/images/item.svg" alt="" />
-          </div>
-
-          <img
-            class="h-[600px]"
-            src="/resources/images/picture.svg"
-            alt="inclined book"
-          />
+      <main class="w-full h-full flex justify-center">
+        <section class="w-[1440px] h-full">
+          <header class="w-full text-white text-3xl">Suas Tarefas</header>
+          <header class="w-full text-white text-xl flex">
+            <input placeholder="Procure por tarefas ja existentes"
+              class="w-[1100px] bg-[#0D0D0D] border border-solid border-[#3f3f3f] h-[42px] rounded-lg placeholder:text-sm placeholder:text-[#616161] pl-4 pb-1"
+              type="text"
+            />
+            <button
+              class="bg-white p-2 rounded-lg text-black font-medium text-sm h-[42px] px-4 flex gap-2 items-center"
+            >
+              Adicionar tarefa <span>+</span>
+            </button>
+            <button
+              class="bg-[#1F1F1F] rounded-lg text-black font-medium justify-center border border-solid border-[#3F3F3F] text-sm w-[42px] h-[42px] flex gap-2 items-center"
+            >
+              <img src="/resources/images/pen.svg" alt=""></span>
+            </button>
+            <button
+              class="bg-[#1F1F1F] rounded-lg text-black font-medium justify-center border border-solid border-[#3F3F3F] text-sm w-[42px] h-[42px] flex gap-2 items-center"
+            >
+              <img src="/resources/images/trash.svg" alt=""></span>
+            </button>
+          </header>
         </section>
-      </section>
+      </main>
 
       <footer class="absolute flex flex-col bottom-0 w-full h-[157px]">
         <section
