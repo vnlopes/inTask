@@ -2,6 +2,7 @@
 
 body{
     font-family: "Archivo", sans-serif;
+    transition: 1s smooth;
 }
 
 body::before{
@@ -33,4 +34,25 @@ body::before{
 ::-webkit-scrollbar-thumb{
     background-color: #ffffff;
     border-radius: 100px;
+}
+
+
+.textbox{
+    border-radius: 8px;
+    border: 1px solid #636363;
+    background-color: #1F1F1F;
+}
+
+
+.textbox footer{
+    height: 49px;
+}
+
+.textbox header{
+    height: 49px;
+}
+
+.textbox header span{
+    height: 40px;
+    font-size: 1.3rem;
 }
