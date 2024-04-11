@@ -1,58 +1,89 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap");
 
-body{
-    font-family: "Archivo", sans-serif;
-    transition: 1s smooth;
+body {
+  font-family: "Archivo", sans-serif;
+  transition: 1s smooth;
 }
 
-body::before{
-    position: absolute;
-    content: '';
-    max-width: 1080px;
-    width: 100%;
-    height: 900px;
-    opacity: 30%;
-    background-color: white;
-    filter: blur(200px);
-    top: -1000px;
-    z-index: -1;
+body::before {
+  position: absolute;
+  content: "";
+  max-width: 1080px;
+  width: 100%;
+  height: 900px;
+  opacity: 30%;
+  background-color: white;
+  filter: blur(200px);
+  top: -1000px;
+  z-index: -1;
 }
 
-.links a:hover{
-    color: rgb(192, 192, 192);
+.links a:hover {
+  color: rgb(192, 192, 192);
 }
 
-.links a{
-    transition: .3s;
+.links a {
+  transition: 0.3s;
 }
 
-::-webkit-scrollbar{
-    background-color: #0f0f0f;
-    width: 8px;
+::-webkit-scrollbar {
+  background-color: #0f0f0f;
+  width: 8px;
 }
 
-::-webkit-scrollbar-thumb{
-    background-color: #ffffff;
-    border-radius: 100px;
+::-webkit-scrollbar-thumb {
+  background-color: #ffffff;
+  border-radius: 100px;
 }
 
-
-.textbox{
-    border-radius: 8px;
-    border: 1px solid #636363;
-    background-color: #1F1F1F;
+.textbox {
+  width: 350px;
+  height: 220px;
+  position: relative;
+  border: 1px solid #3f3f3f;
+  border-radius: 8px;
+  background-color: #1f1f1f;
 }
 
-
-.textbox footer{
-    height: 49px;
+.footerBox {
+  height: 50px;
+  gap: 0.5rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  border-top: 1px solid #3f3f3f;
+  position: absolute;
+  bottom: 0;
 }
 
-.textbox header{
-    height: 49px;
+.headerBox {
+  width: 100%;
+  height: 50px;
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  padding-left: 1.5rem;
 }
 
-.textbox header span{
-    height: 40px;
-    font-size: 1.3rem;
+.titleBox {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.receiveText {
+  width: 100%;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.textBox {
+  color: #acacac;
+  font-weight: normal;
+  font-size: 0.875rem;
+}
+
+.textbox header span {
+  height: 40px;
+  font-size: 1.3rem;
 }
