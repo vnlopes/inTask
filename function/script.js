@@ -1,7 +1,28 @@
 const receiveBox = document.querySelector("#receivebox");
 let count = 0;
 
+const addText = () => {
+  document.querySelector(".bodyText").classList.remove("hidden");
+};
+
+let arr = {
+  text: '',
+}
+
+const backNotes = () => {
+  document.querySelector(".bodyText").classList.add("hidden");
+};
+
+
+let textIn = document.querySelector("textarea");
+let titleIn = document.querySelector(".title");
+
+
+
 const addTask = () => {
+
+  document.querySelector(".bodyText").classList.add("hidden");
+
   count++;
   if (count == 3) {
     receiveBox.classList.add("justify-center");
@@ -21,7 +42,7 @@ const addTask = () => {
 
   let title = document.createElement("span");
   title.classList.add("titleBox");
-  title.innerHTML = "Title";
+  title.innerHTML = titleIn.value;
   header.appendChild(title);
 
   let calendar = document.createElement("img");
@@ -29,13 +50,12 @@ const addTask = () => {
   calendar.style = "width: 15px;";
   footer.appendChild(calendar);
 
-  let receiveText = document.createElement('main');
-  receiveText.classList.add('receiveText')
-  task.appendChild(receiveText)
+  let receiveText = document.createElement("main");
+  receiveText.classList.add("receiveText");
+  task.appendChild(receiveText);
 
   let text = document.createElement("span");
   text.classList.add("textBox");
-  text.innerHTML =
-    "Bem-vindo ao inTask! Estamos extremamente felizes em tê-lo(a) a bordo, pronto(a) para começar...";
+  text.innerHTML = textIn.value;
   receiveText.appendChild(text);
 };
