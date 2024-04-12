@@ -65,7 +65,7 @@
           <header class="w-full text-white text-xl gap-2 flex">
             <input
               placeholder="Procure por tarefas ja existentes"
-              class="max-w-[80%] w-full bg-[#0D0D0D] text-sm border border-solid border-[#3f3f3f] h-[42px] rounded-lg placeholder:text-sm placeholder:text-[#616161] pl-4 pb-1"
+              class="max-w-[80%] w-full bg-[#0D0D0D] text-sm border border-solid border-[#3f3f3f] h-[42px] rounded-lg placeholder:text-sm placeholder:text-[#616161] pl-4 pb-1 focus:outline-none"
               type="text"
             />
             <button
@@ -90,7 +90,7 @@
 
           <section
             id="receivebox"
-            class="flex flex-wrap gap-4 flex-row w-full h-full"
+            class="flex flex-wrap gap-6 px-20 flex-row w-full h-full"
           >
             <div
               class="textbox w-[350px] relative h-[220px] border border-solid border-[#3F3F3F] rounded-lg bg-[#1F1F1F]"
@@ -112,7 +112,7 @@
                   class="w-[15px]"
                   alt=""
                 />
-                <span class="text-[#ACACAC] text-sm">April 4, 2024</span>
+                <span class="text-[#ACACAC] text-sm">Abr 4, 2024</span>
               </footer>
             </div>
           </section>
@@ -157,7 +157,7 @@
         </section>
       </footer>
 
-      <section class="bodyText w-screen absolute h-full hidden bg-[#040404]">
+      <section class="bodyText flex flex-col w-screen absolute h-full hidden bg-[#040404]">
         <header
           class="justify-center items-center relative bg-[#040404] w-full flex h-[70px] border-solid boder-1 border-b border-zinc-900"
         >
@@ -203,7 +203,7 @@
           </nav>
         </header>
 
-        <input placeholder="Title" class="title font-semibold bg-transparent mt-3 px-[72px] outline-none text-white text-2xl" type="text">
+        <input placeholder="Title" maxlength="26" class="title font-semibold bg-transparent mt-3 px-[72px] outline-none text-white text-2xl" type="text">
 
         <textarea
           class="h-full px-[72px] w-[1440px] bg-transparent text-white p-4 border-none resize-none outline-none"

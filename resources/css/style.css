@@ -37,6 +37,7 @@ body::before {
 }
 
 .textbox {
+  word-wrap: break-word;
   width: 350px;
   height: 220px;
   position: relative;
@@ -67,6 +68,7 @@ body::before {
 }
 
 .titleBox {
+  word-wrap: break-word;
   color: white;
   font-size: 1.5rem;
 }
@@ -80,6 +82,11 @@ body::before {
 .textBox {
   color: #acacac;
   font-weight: normal;
+  font-size: 0.875rem;
+}
+
+.date{
+  color: #ACACAC;
   font-size: 0.875rem;
 }
 
