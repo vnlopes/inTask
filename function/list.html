@@ -70,16 +70,16 @@
             />
             <button
               onclick="addText()"
-              class="bg-white p-2 rounded-lg text-black font-medium text-sm h-[42px] px-4 flex gap-2 items-center"
+              class="bg-white p-2 hover:bg-zinc-200 rounded-lg text-black font-medium text-sm h-[42px] px-4 flex gap-2 items-center"
             >
               Adicionar tarefa <span>+</span>
             </button>
-            <button
+            <!-- <button
               class="bg-[#1F1F1F] rounded-lg text-black font-medium justify-center border border-solid border-[#3F3F3F] text-sm w-[42px] h-[42px] flex gap-2 items-center"
             >
               <img src="/resources/images/pen.svg" alt="" />
-            </button>
-            <button
+            </button> -->
+            <button onclick="remove()"
               class="bg-[#520005] rounded-lg text-black font-medium justify-center border border-solid border-[#FF0000] text-sm w-[42px] h-[42px] flex gap-2 items-center"
             >
               <img src="/resources/images/trash.svg" alt="" />
@@ -92,7 +92,7 @@
             id="receivebox"
             class="flex flex-wrap gap-6 px-20 flex-row w-full h-full"
           >
-            <div
+            <!-- <div
               class="textbox w-[350px] relative h-[220px] border border-solid border-[#3F3F3F] rounded-lg bg-[#1F1F1F]"
             >
               <header class="w-full h-[50px] mt-3 flex items-center pl-6">
@@ -114,7 +114,7 @@
                 />
                 <span class="text-[#ACACAC] text-sm">Abr 4, 2024</span>
               </footer>
-            </div>
+            </div> -->
           </section>
 
           <!-- fim notas -->
@@ -203,7 +203,7 @@
           </nav>
         </header>
 
-        <input placeholder="Title" maxlength="26" class="title font-semibold bg-transparent mt-3 px-[72px] outline-none text-white text-2xl" type="text">
+        <input placeholder="Title" maxlength="23" class="title font-semibold bg-transparent mt-3 px-[72px] outline-none text-white text-2xl" type="text">
 
         <textarea
           class="h-full px-[72px] w-[1440px] bg-transparent text-white p-4 border-none resize-none outline-none"

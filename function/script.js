@@ -5,19 +5,12 @@ const addText = () => {
   document.querySelector(".bodyText").classList.remove("hidden");
 };
 
-let arr = {
-  text: '',
-}
-
 const backNotes = () => {
   document.querySelector(".bodyText").classList.add("hidden");
 };
 
-
 let textIn = document.querySelector("textarea");
 let titleIn = document.querySelector(".title");
-
-
 
 const addTask = () => {
   if (textIn.value == '' || titleIn.value == ''){
@@ -27,7 +20,6 @@ const addTask = () => {
     newTask()
   }
 };
-
 
 const newTask = () => {
   // count++;
@@ -51,6 +43,11 @@ const newTask = () => {
   title.classList.add("titleBox");
   title.innerHTML = titleIn.value;
   header.appendChild(title);
+
+  let x = document.createElement("img");
+  x.classList.add("x");
+  x.src = '/resources/images/x.svg'
+  header.appendChild(x);
 
   let calendar = document.createElement("img");
   calendar.src = "/resources/images/calendar.svg";
@@ -113,21 +110,26 @@ const newTask = () => {
   saveData()
 }
 
-
 const saveData = () => {
-  let textBox = document.querySelector('.textbox')
-  let htmlContent = textBox.innerHTML
-  localStorage.setItem('boxAll', htmlContent)
-  localStorage.setItem('boxText', receiveBox)
+  localStorage.setItem('boxText', receiveBox.innerHTML)
 }
 
 const showTask = () => {
   receiveBox.innerHTML = localStorage.getItem('boxText')
-  htmlContent.innerHTML = localStorage.getItem('boxAll')
 }
-
 // localStorage.clear()
-
 showTask()
+
+
+
+
+
+const x = document.querySelectorAll(".textbox")
+
+const remove = () => {
+  x.forEach(textBox => {
+    textBox.classList.add('x');
+  });
+}
 
 

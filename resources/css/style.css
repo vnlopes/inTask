@@ -37,6 +37,7 @@ body::before {
 }
 
 .textbox {
+  cursor: pointer;
   word-wrap: break-word;
   width: 350px;
   height: 220px;
@@ -93,4 +94,27 @@ body::before {
 .textbox header span {
   height: 40px;
   font-size: 1.3rem;
+}
+
+
+
+.x{
+  content: url(/resources/images/x.svg);
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 10px;
+  right: 10px;
+  fill: #ACACAC;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3px;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.x:hover{
+  background-color: #1a1a1a;
+  transform: scale(0.9);
 }
