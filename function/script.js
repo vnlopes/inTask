@@ -123,18 +123,19 @@ const newTask = () => {
   text.innerHTML = myText.slice(0, 156);
   receiveText.appendChild(text);
 
+  const saveData = () => {
+    localStorage.setItem("boxText", newNoteJSON);
+  };
+  
   saveData();
 };
 
-const saveData = () => {
-  localStorage.setItem("boxText", newNoteJSON);
-};
 
-const showTask = () => {
-  newNoteJSON = localStorage.getItem("boxText");
-};
+  // const showTask = () => {
+  //   newNoteJSON = localStorage.getItem("boxText");
+  // };
+  // showTask();
 // localStorage.clear()
-showTask();
 
 const x = document.querySelectorAll(".textbox");
 
