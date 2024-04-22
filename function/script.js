@@ -46,15 +46,45 @@ const saveTask = (task) => {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
+
+document.getElementById('addRemovalIcons').addEventListener('click', () => {
+  document.querySelectorAll('.headerBox').forEach(header => {
+    let taskId = header.parentNode.getAttribute('data-task-id'); // Assume que o div da tarefa é o elemento pai do header
+    if (!header.querySelector('.x')) { // Evita adicionar múltiplos ícones
+      addRemoveIcon(header, taskId);
+    }
+  });
+});
+
+
+
+const addRemoveIcon = (header, taskId) => {
+  let x = document.createElement("img");
+  x.classList.add("x");
+  x.src = "/resources/images/x.svg";
+  x.addEventListener('click', () => remover(taskId));
+  header.appendChild(x);
+};
+
+const remover = (taskId) => {
+  // Remove a tarefa da interface
+  let taskElement = document.querySelector(`div[data-task-id='${taskId}']`);
+  if (taskElement) taskElement.remove();
+  
+  // Remove a tarefa do Local Storage
+  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks = tasks.filter(task => task.id !== parseInt(taskId));
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+};
+
+
+
 // Função para renderizar uma tarefa na tela
 const renderTask = (task) => {
   let taskDiv = document.createElement("div");
   taskDiv.classList.add("textbox");
+  taskDiv.setAttribute('data-task-id', task.id);  // Atributo para identificar facilmente a tarefa
   receiveBox.appendChild(taskDiv);
-
-  let footer = document.createElement("footer");
-  footer.classList.add("footerBox");
-  taskDiv.appendChild(footer);
 
   let header = document.createElement("header");
   header.classList.add("headerBox");
@@ -65,25 +95,34 @@ const renderTask = (task) => {
   title.textContent = task.title;
   header.appendChild(title);
 
+  // Adicionar ícone de remoção
+  // addRemoveIcon(header, task.id);
+  
+  let footer = document.createElement("footer");
+  footer.classList.add("footerBox");
+  taskDiv.appendChild(footer);
+  
   let calendar = document.createElement("img");
   calendar.src = "/resources/images/calendar.svg";
   calendar.style.width = "15px";
   footer.appendChild(calendar);
-
+  
   let date = document.createElement("span");
   date.classList.add("date");
   date.textContent = task.date;
   footer.appendChild(date);
-
+  
   let receiveText = document.createElement("main");
   receiveText.classList.add("receiveText");
   taskDiv.appendChild(receiveText);
-
+  
   let text = document.createElement("span");
   text.classList.add("textBox");
-  text.textContent = task.content;
+  text.textContent = task.content.slice(0, 156);
   receiveText.appendChild(text);
 };
+
+
 
 // Função para carregar tarefas do Local Storage quando a página é carregada
 const loadTasks = () => {
@@ -93,3 +132,6 @@ const loadTasks = () => {
 
 // Carrega as tarefas armazenadas ao carregar a página
 document.addEventListener("DOMContentLoaded", loadTasks);
+
+
+// localStorage.clear()
