@@ -13,19 +13,71 @@ let textIn = document.querySelector("textarea");
 let titleIn = document.querySelector(".title");
 
 const addTask = () => {
-  if (textIn.value == '' || titleIn.value == ''){
-    alert('Você deve digitar algo')
-  } else{
+  if (textIn.value == "" || titleIn.value == "") {
+    alert("Você deve digitar algo");
+  } else {
     document.querySelector(".bodyText").classList.add("hidden");
-    newTask()
+    newTask();
   }
 };
+let id = 0;
 
 const newTask = () => {
-  // count++;
-  // if (count == 3) {
-  //   receiveBox.classList.add("justify-center");
-  // }
+  id++;
+
+
+  let data = new Date();
+  let month = data.getMonth();
+  
+  switch (month) {
+    case 1:
+      month = "Jan";
+      break;
+    case 2:
+      month = "Fev";
+      break;
+    case 3:
+      month = "Mar";
+      break;
+    case 4:
+      month = "Abr";
+      break;
+    case 5:
+      month = "Mai";
+      break;
+    case 6:
+      month = "Jun";
+      break;
+    case 7:
+      month = "Jul";
+      break;
+    case 8:
+      month = "Ago";
+      break;
+    case 9:
+      month = "Set";
+      break;
+    case 10:
+      month = "Out";
+      break;
+    case 11:
+      month = "Nov";
+      break;
+    case 12:
+      month = "Dez";
+      break;
+  }
+  
+  let newNote = {
+    id: id,
+    title: titleIn.value,
+    content: textIn.value,
+    data: month + " " + data.getDate(4, 2, 4) + ", " + data.getFullYear(),
+  };
+
+  let newNoteJSON = JSON.stringify(newNote)
+
+  console.log(newNoteJSON);
 
   let task = document.createElement("div");
   task.classList.add("textbox");
@@ -41,12 +93,12 @@ const newTask = () => {
 
   let title = document.createElement("span");
   title.classList.add("titleBox");
-  title.innerHTML = titleIn.value;
+  title.innerHTML = newNote.title;
   header.appendChild(title);
 
   let x = document.createElement("img");
   x.classList.add("x");
-  x.src = '/resources/images/x.svg'
+  x.src = "/resources/images/x.svg";
   header.appendChild(x);
 
   let calendar = document.createElement("img");
@@ -54,82 +106,40 @@ const newTask = () => {
   calendar.style = "width: 15px;";
   footer.appendChild(calendar);
 
-  let data = new Date(2024, 4, 12);
-  let month = data.getMonth();
-
-  if(month == 1){
-    month = 'Jan'
-  } else if (month == 2){
-    month = 'Fev'
-  } else if (month == 3){
-    month = 'Mar'
-  } else if (month == 4){
-    month = 'Abr'
-  }else if (month == 5){
-    month = 'Mai'
-  }else if (month == 6){
-    month = 'Jun'
-  }else if (month == 7){
-    month = 'Jul'
-  }else if (month == 8){
-    month = 'Ago'
-  }else if (month == 9){
-    month = 'Set'
-  }else if (month == 10){
-    month = 'Out'
-  }else if (month == 11){
-    month = 'Nov'
-  }else if (month == 12){
-    month = 'Dez'
-  }
 
   let date = document.createElement("span");
   date.classList.add("date");
-  date.innerHTML = month  + ' ' + data.getDate() + ", " + data.getFullYear();
+  date.innerHTML =
+    newNote.data
   footer.appendChild(date);
 
   let receiveText = document.createElement("main");
   receiveText.classList.add("receiveText");
   task.appendChild(receiveText);
 
-
-  let myText = textIn.value
-
-  // if(myText.length > 10){
-  //   myText.slice(0, 7)
-
-  //   console.log(myText.slice(0, 7))
-  // }
-
+  let myText = newNote.content;
   let text = document.createElement("span");
   text.classList.add("textBox");
   text.innerHTML = myText.slice(0, 156);
   receiveText.appendChild(text);
 
-
-  saveData()
-}
+  saveData();
+};
 
 const saveData = () => {
-  localStorage.setItem('boxText', receiveBox.innerHTML)
-}
+  localStorage.setItem("boxText", newNoteJSON);
+};
 
 const showTask = () => {
-  receiveBox.innerHTML = localStorage.getItem('boxText')
-}
+  newNoteJSON = localStorage.getItem("boxText");
+};
 // localStorage.clear()
-showTask()
+showTask();
 
-
-
-
-
-const x = document.querySelectorAll(".textbox")
+const x = document.querySelectorAll(".textbox");
 
 const remove = () => {
-  x.forEach(textBox => {
-    textBox.classList.add('x');
+  x.forEach((textBox) => {
+    textBox.classList.add("x");
   });
-}
-
-
+};
