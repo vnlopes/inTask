@@ -17,7 +17,7 @@
   >
     <img
       src="/resources/images/bg-grid-intask.svg"
-      class="absolute select none z-[-1]"
+      class="absolute select md:flex hidden none z-[-1]"
       alt=""
     />
 
@@ -60,9 +60,9 @@
       </header>
 
       <main class="w-full min-h-[900px] mb-[200px] flex justify-center">
-        <section class="w-[1440px] flex flex-col gap-6 pt-6 h-full px-[70px]">
-          <header class="w-full text-white text-3xl">Suas Tarefas</header>
-          <header class="w-full text-white text-xl gap-2 flex-wrap md:flex">
+        <section class="w-[1440px] flex flex-col gap-6 pt-6 justify-center h-full px-[70px]">
+          <header class="w-full md:justify-start justify-center flex text-white text-3xl">Suas Tarefas</header>
+          <header class="w-full md:justify-center items-center text-white text-xl gap-2 md:flex-row flex-col flex">
             <input
               placeholder="Procure por tarefas ja existentes"
               class="max-w-[80%] w-full bg-[#0D0D0D] text-sm border border-solid border-[#3f3f3f] h-[42px] rounded-lg placeholder:text-sm placeholder:text-[#616161] pl-4 pb-1 focus:outline-none"
@@ -93,7 +93,7 @@
 
           <section
             id="receivebox"
-            class="flex flex-wrap gap-6 px-20 flex-row w-full h-full"
+            class="flex gap-6 px-20 flex-col items-center sm:flex-col md:flex-row w-full h-full"
           >
             <!-- <div
               class="textbox w-[350px] relative h-[220px] border border-solid border-[#3F3F3F] rounded-lg bg-[#1F1F1F]"
