@@ -31,7 +31,7 @@
           <a href="/index.html">
             <img src="/resources/images/logo.svg" alt="" />
           </a>
-          <ul class="links font-medium flex gap-8">
+          <ul class="links font-medium hidden md:flex gap-8">
             <a class="text-white" href="#">Inicio</a>
             <a class="text-white" href="#">Pagamento</a>
             <a class="text-white" href="#">Sobre</a>
@@ -62,13 +62,14 @@
       <main class="w-full min-h-[900px] mb-[200px] flex justify-center">
         <section class="w-[1440px] flex flex-col gap-6 pt-6 h-full px-[70px]">
           <header class="w-full text-white text-3xl">Suas Tarefas</header>
-          <header class="w-full text-white text-xl gap-2 flex">
+          <header class="w-full text-white text-xl gap-2 flex-wrap md:flex">
             <input
               placeholder="Procure por tarefas ja existentes"
               class="max-w-[80%] w-full bg-[#0D0D0D] text-sm border border-solid border-[#3f3f3f] h-[42px] rounded-lg placeholder:text-sm placeholder:text-[#616161] pl-4 pb-1 focus:outline-none"
               type="text"
             />
-            <button
+            <div class="flex gap-2">
+              <button
               onclick="addText()"
               class="bg-white p-2 hover:bg-zinc-200 rounded-lg text-black font-medium text-sm h-[42px] px-4 flex gap-2 items-center"
             >
@@ -79,11 +80,13 @@
             >
               <img src="/resources/images/pen.svg" alt="" />
             </button> -->
-            <button id="addRemovalIcons"
+            <button
+              id="addRemovalIcons"
               class="bg-[#520005] rounded-lg text-black font-medium justify-center border border-solid border-[#FF0000] text-sm w-[42px] h-[42px] flex gap-2 items-center"
             >
               <img src="/resources/images/trash.svg" alt="" />
             </button>
+            </div>
           </header>
 
           <!-- notas -->
@@ -157,7 +160,9 @@
         </section>
       </footer>
 
-      <section class="bodyText flex flex-col w-screen absolute h-full hidden bg-[#040404]">
+      <section
+        class="bodyText flex flex-col w-screen absolute h-full hidden bg-[#040404]"
+      >
         <header
           class="justify-center items-center relative bg-[#040404] w-full flex h-[70px] border-solid boder-1 border-b border-zinc-900"
         >
@@ -203,7 +208,12 @@
           </nav>
         </header>
 
-        <input placeholder="Title" maxlength="23" class="title font-semibold bg-transparent mt-3 px-[72px] outline-none text-white text-2xl" type="text">
+        <input
+          placeholder="Title"
+          maxlength="23"
+          class="title font-semibold bg-transparent mt-3 px-[72px] outline-none text-white text-2xl"
+          type="text"
+        />
 
         <textarea
           class="h-full px-[72px] w-[1440px] bg-transparent text-white p-4 border-none resize-none outline-none"
