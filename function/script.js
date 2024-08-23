@@ -1,5 +1,6 @@
 const receiveBox = document.querySelector("#receivebox");
 let id = 0; // Inicializa o ID que será usado para cada tarefa
+let editingTaskId = null; // Variável para rastrear a tarefa que está sendo editada
 
 // Função para adicionar ou esconder a caixa de texto
 const addText = () =>
@@ -16,7 +17,12 @@ const addTask = () => {
     alert("Você deve digitar algo");
   } else {
     document.querySelector(".bodyText").classList.add("hidden");
-    newTask();
+
+    if (editingTaskId) {
+      updateTask(editingTaskId);
+    } else {
+      newTask();
+    }
   }
 };
 
@@ -50,8 +56,7 @@ const newTask = () => {
 
   renderTask(newNote);
   saveTask(newNote);
-  textIn.value = ""; // Limpa o campo de texto após salvar
-  titleIn.value = ""; // Limpa o campo de título após salvar
+  clearInputs();
 };
 
 // Função para salvar a tarefa no Local Storage
@@ -81,7 +86,6 @@ const addRemoveIcon = (header, taskId) => {
 
 const remover = (taskId) => {
   // Remove a tarefa da interface
-  // document.querySelector(".bodyText").classList.add("hidden");
   let taskElement = document.querySelector(`div[data-task-id='${taskId}']`);
   if (taskElement) taskElement.remove();
 
@@ -107,9 +111,6 @@ const renderTask = (task) => {
   title.textContent = task.title;
   header.appendChild(title);
 
-  // Adicionar ícone de remoção
-  // addRemoveIcon(header, task.id);
-
   let footer = document.createElement("footer");
   footer.classList.add("footerBox");
   taskDiv.appendChild(footer);
@@ -133,11 +134,42 @@ const renderTask = (task) => {
   text.textContent = task.content.slice(0, 156);
   receiveText.appendChild(text);
 
-  document.querySelectorAll(".textbox").forEach((element) => {
-    element.addEventListener("click", () => {
-      document.querySelector(".bodyText").classList.remove("hidden");
-    });
+  // Evento de clique para carregar o conteúdo da tarefa na área de edição
+  receiveText.addEventListener("click", () => {
+    document.querySelector(".bodyText").classList.remove("hidden");
+    titleIn.value = task.title;
+    textIn.value = task.content;
+    editingTaskId = task.id; // Definir o ID da tarefa que está sendo editada
   });
+};
+
+// Função para atualizar a tarefa existente
+const updateTask = (taskId) => {
+  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  const taskIndex = tasks.findIndex((task) => task.id === taskId);
+
+  if (taskIndex !== -1) {
+    tasks[taskIndex].title = titleIn.value;
+    tasks[taskIndex].content = textIn.value;
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    refreshTasks();
+    clearInputs();
+  }
+
+  editingTaskId = null; // Limpar o ID da tarefa em edição
+};
+
+// Função para recarregar as tarefas na interface
+const refreshTasks = () => {
+  receiveBox.innerHTML = "";
+  loadTasks();
+};
+
+// Função para limpar os campos de entrada
+const clearInputs = () => {
+  textIn.value = "";
+  titleIn.value = "";
 };
 
 // Função para carregar tarefas do Local Storage quando a página é carregada
@@ -145,6 +177,25 @@ const loadTasks = () => {
   const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
   tasks.forEach(renderTask);
 };
+
+// Função para filtrar e exibir tarefas com base na pesquisa
+const searchTasks = (query) => {
+  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  receiveBox.innerHTML = ""; // Limpa a área de exibição de tarefas
+
+  const filteredTasks = tasks.filter((task) =>
+    task.title.toLowerCase().includes(query.toLowerCase()) ||
+    task.content.toLowerCase().includes(query.toLowerCase())
+  );
+
+  filteredTasks.forEach(renderTask); // Renderiza apenas as tarefas filtradas
+};
+
+// Evento para capturar a pesquisa em tempo real
+const searchInput = document.querySelector("#searchInput"); // Supondo que o campo de pesquisa tenha o ID "searchInput"
+searchInput.addEventListener("input", (e) => {
+  searchTasks(e.target.value);
+});
 
 // Carrega as tarefas armazenadas ao carregar a página
 document.addEventListener("DOMContentLoaded", loadTasks);
