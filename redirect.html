@@ -1,21 +1,47 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registro</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-black text-white flex flex-col justify-center items-center min-h-screen">
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="bg-black text-white flex flex-col justify-center items-center min-h-screen"
+  >
     <div class="bg-gray-800 p-8 rounded-lg shadow-lg w-96">
-        <h1 class="text-2xl font-bold mb-4 text-center">Registro</h1>
-        <form action="register.php" method="POST" class="bg-gray-800 p-6 rounded-lg">
-            <h2 class="text-white text-2xl mb-4">Registrar</h2>
-            <input type="text" name="username" placeholder="Nome de Usuário" required class="mb-4 p-2 w-full rounded">
-            <input type="password" name="password" placeholder="Senha" required class="mb-4 p-2 w-full rounded">
-            <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Registrar</button>
-        </form>        
-        <p class="mt-4 text-center">Já possui uma conta? <a href="login.php" class="text-blue-400 hover:underline">Faça login</a></p>
+      <h1 class="text-2xl font-bold mb-4 text-center">Registro</h1>
+      <form
+        action="register.php"
+        method="POST"
+        class="bg-gray-800 p-6 rounded-lg"
+      >
+        <h2 class="text-white text-2xl mb-4">Registrar</h2>
+        <input
+          type="text"
+          name="username"
+          placeholder="Nome de Usuário"
+          required
+          class="mb-4 p-2 w-full rounded"
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Senha"
+          required
+          class="mb-4 p-2 w-full rounded"
+        />
+        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">
+          Registrar
+        </button>
+      </form>
+      <p class="mt-4 text-center">
+        Já possui uma conta?
+        <a href="login.php" class="text-blue-400 hover:underline">Faça login</a>
+      </p>
     </div>
-</body>
+  </body>
 </html>

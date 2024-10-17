@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Cria uma query para inserir os dados
     $stmt = $conn->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
-    $hashed_password = password_hash($password, PASSWORD_BCRYPT); // Hash a senha para segurança
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT); // Hash a senha para segurança
     $stmt->bind_param("ss", $username, $hashed_password);
 
     if ($stmt->execute()) {

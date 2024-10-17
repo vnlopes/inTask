@@ -1,40 +1,57 @@
 <?php
-require 'db.php'; // Inclui a conexão com o banco de dados
+session_start();
+require('db.php'); // Certifique-se de que o caminho está correto
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Captura os dados do formulário
-    $username = $_POST['username'];
+    $username = $_POST['username']; // Altere de email para username
     $password = $_POST['password'];
 
-    // Verifica se o usuário existe
-    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+    // Verificação de login
+    $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?"); // Não selecione tudo, só a senha
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
-    
+
     if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-        // Verifica a senha
-        if (password_verify($password, $user['password'])) {
-            // Redireciona para a página de criação de notas
-            header('Location: /function/list.php');
-            exit();
+        $row = $result->fetch_assoc();
+        $hashedPassword = $row['password'];
+
+        // Verifica se a senha inserida corresponde ao hash
+        if (password_verify($password, $hashedPassword)) {
+            // Usuário autenticado com sucesso
+            $_SESSION['username'] = $username; // Armazena o nome de usuário na sessão
+            
+            // Redireciona para a página de notas na pasta function
+            header("Location: function/list.php");
+            exit(); // Para garantir que o script PHP pare aqui
         } else {
-            echo "Senha incorreta.";
+            echo "Login inválido!";
         }
     } else {
-        echo "Usuário não encontrado.";
+        echo "Login inválido!";
     }
 
-    // Fecha a declaração e a conexão
+    // Fecha a declaração
     $stmt->close();
     $conn->close();
 }
 ?>
 
-<form action="login.php" method="POST" class="bg-gray-800 p-6 rounded-lg">
-    <h2 class="text-white text-2xl mb-4">Login</h2>
-    <input type="text" name="username" placeholder="Nome de Usuário" required class="mb-4 p-2 w-full rounded">
-    <input type="password" name="password" placeholder="Senha" required class="mb-4 p-2 w-full rounded">
-    <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Entrar</button>
-</form>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-black text-white flex justify-center items-center h-screen">
+    <form method="POST" class="bg-gray-800 p-6 rounded-lg shadow-md w-96">
+        <h2 class="text-2xl mb-4 text-center">Login</h2>
+        <input type="text" name="username" required placeholder="Usuário" class="mb-4 p-2 w-full rounded bg-gray-700 text-white placeholder-gray-400" />
+        <input type="password" name="password" required placeholder="Senha" class="mb-4 p-2 w-full rounded bg-gray-700 text-white placeholder-gray-400" />
+        <button type="submit" class="bg-blue-500 text-white py-2 rounded w-full">Entrar</button>
+    </form>
+</body>
+</html>
+
