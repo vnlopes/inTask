@@ -6,7 +6,11 @@
     <title>Não deixe suas tarefas para depois.</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/resources/css/style.css" />
-    <link rel="shortcut icon" href="/resources/images/logo-icon.svg" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="/resources/images/logo-icon.svg"
+      type="image/x-icon"
+    />
   </head>
   <body class="bg-[#040404] relative min-h-screen flex items-center flex-col">
     <img
@@ -22,9 +26,9 @@
         <nav
           class="center-header px-[70px] relative max-w-[1440px] w-full flex items-center justify-between"
         >
-       <a href="/index.html">
-        <img src="/resources/images/logo.svg" alt="">
-       </a>
+          <a href="/index.html">
+            <img src="/resources/images/logo.svg" alt="" />
+          </a>
           <ul class="links font-medium hidden md:flex gap-8">
             <a class="text-white" href="#">Inicio</a>
             <a class="text-white" href="#">Pagamento</a>
@@ -59,7 +63,7 @@
         <section
           class="max-w-[1400px] lg:mt-0 mt-10 lg:flex-row flex-col px-[70px] w-screen h-fit flex justify-between items-center font-bold text-2xl sm:text-7xl"
         >
-          <div class="lg:w-[600px] flex items-start gap-8 z-30  flex-col">
+          <div class="lg:w-[600px] flex items-start gap-8 z-30 flex-col">
             <span class="text-wrap text-white">
               Controlar as tarefas nunca foi
               <span
@@ -69,18 +73,24 @@
               </span>
             </span>
             <div class="flex gap-6 items-center z-30 lg:flex-row flex-col">
-              <a href="/function/list.html"
+              <button
+                onclick="showOptions()"
+                id="startButton"
                 class="py-3 px-6 bg-white hover:bg-zinc-200 transition-[.2s] rounded-[8px] w-fit h-fit font-medium text-xl"
               >
                 Começar agora
-              </a>
+              </button>
               <button
                 class="py-3 px-6 bg-[#060606] rounded-[8px] w-fit text-white border-solid border-zinc-700 hover:bg-[#040404] transition-[.2s] border h-fit font-medium text-xl"
               >
                 Demonstração
               </button>
             </div>
-            <img class="h-[24px] lg:bg-transparent lg:px-0 px-2 rounded bg-[#040404]" src="/resources/images/item.svg" alt="" />
+            <img
+              class="h-[24px] lg:bg-transparent lg:px-0 px-2 rounded bg-[#040404]"
+              src="/resources/images/item.svg"
+              alt=""
+            />
           </div>
 
           <img
@@ -128,4 +138,9 @@
       </footer>
     </main>
   </body>
+  <script>
+    function showOptions() {
+      window.location.href = "redirect.html";
+    }
+  </script>
 </html>

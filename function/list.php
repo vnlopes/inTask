@@ -1,3 +1,15 @@
+<?php
+session_start(); // Iniciar a sessão
+
+// Verificar se o usuário está autenticado
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php"); // Redirecionar para a página de login se não estiver autenticado
+    exit();
+}
+
+// HTML e lógica para criar notas aqui
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
