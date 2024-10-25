@@ -7,6 +7,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-[#040404] relative min-h-screen flex items-center flex-col">
+    <img
+      src="./resources/images/bg-grid-intask.svg"
+      class="absolute select none z-[-1]"
+      alt=""
+    />
     <main class="min-h-screen flex flex-col items-center w-full">
       <header
         class="justify-center items-center relative bg-[#040404] w-full flex h-[70px] border-solid boder-1 border-b border-zinc-900"
@@ -14,7 +19,7 @@
         <nav
           class="center-header px-[70px] relative max-w-[1440px] w-full flex items-center justify-between"
         >
-          <a href="/index.html">
+          <a href="..//inTask/index.html">
             <img src="..//inTask/resources/images/logo.svg" alt="" />
           </a>
           <ul class="links font-medium hidden md:flex gap-8">
@@ -44,7 +49,8 @@
           </a>
         </nav>
       </header>
-      <div class="bg-[#1F1F1F] p-8 rounded-lg shadow-lg w-96">
+
+      <div class="bg-[#1F1F1F] p-8 rounded-lg shadow-lg w-96 mt-[10%]">
         <h1 class="text-2xl text-white font-bold mb-4 text-center">Login</h1>
         <form action="login.php" method="POST" class="p-6 rounded-lg">
           <h2 class="text-white text-2xl mb-4">Faça Login</h2>
@@ -53,14 +59,14 @@
             name="username"
             placeholder="Nome de Usuário"
             required
-            class="mb-4 p-2 w-full rounded"
+            class="mb-4 p-2 w-full rounded bg-[#414141] text-white"
           />
           <input
             type="password"
             name="password"
             placeholder="Senha"
             required
-            class="mb-4 p-2 w-full rounded"
+            class="mb-4 p-2 w-full rounded bg-[#414141] text-white"
           />
           <button
             type="submit"
@@ -76,6 +82,41 @@
           >
         </p>
       </div>
+      <footer class="absolute flex flex-col bottom-0 w-full h-[157px]">
+        <section
+          class="h-[60%] border-t border-solid justify-center flex items-center border-zinc-900 bg-[#040404]"
+        >
+          <div class="flex w-full px-[70px] justify-between max-w-[1440px]">
+            <nav class="flex items-center justify-between h-full">
+              <img class="h-[24px]" src="./resources/images/logo.svg" alt="" />
+            </nav>
+            <nav>
+              <div class="lg:flex hidden gap-8">
+                <a class="text-white" href="">Documentação</a>
+                <a class="text-white" href="">Segurança</a>
+                <a class="text-white" href="">Status</a>
+                <a class="text-white" href="">Contato</a>
+              </div>
+            </nav>
+          </div>
+        </section>
+        <section
+          class="h-[40%] border-t border-solid justify-center flex items-center border-zinc-900 bg-[#0D0D0D]"
+        >
+          <div class="flex w-full px-[70px] justify-between max-w-[1440px]">
+            <nav class="flex items-center justify-between h-full">
+              <a class="text-white" href="">© 2024 inTask, Inc.</a>
+            </nav>
+            <nav>
+              <div class="lg:flex gap-8 hidden">
+                <a class="text-white" href="">Termos</a>
+                <a class="text-white" href="">Politicas</a>
+                <a class="text-white" href="">Cookies</a>
+              </div>
+            </nav>
+          </div>
+        </section>
+      </footer>
     </main>
   </body>
 </html>
