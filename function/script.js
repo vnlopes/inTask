@@ -79,7 +79,7 @@ document.getElementById("addRemovalIcons").addEventListener("click", () => {
 const addRemoveIcon = (header, taskId) => {
   let x = document.createElement("img");
   x.classList.add("x");
-  x.src = "/resources/images/x.svg";
+  x.src = "..//resources/images/x.svg";
   x.addEventListener("click", () => remover(taskId));
   header.appendChild(x);
 };
@@ -116,7 +116,7 @@ const renderTask = (task) => {
   taskDiv.appendChild(footer);
 
   let calendar = document.createElement("img");
-  calendar.src = "/resources/images/calendar.svg";
+  calendar.src = "../resources/images/calendar.svg";
   calendar.style.width = "15px";
   footer.appendChild(calendar);
 
@@ -183,9 +183,10 @@ const searchTasks = (query) => {
   const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
   receiveBox.innerHTML = ""; // Limpa a área de exibição de tarefas
 
-  const filteredTasks = tasks.filter((task) =>
-    task.title.toLowerCase().includes(query.toLowerCase()) ||
-    task.content.toLowerCase().includes(query.toLowerCase())
+  const filteredTasks = tasks.filter(
+    (task) =>
+      task.title.toLowerCase().includes(query.toLowerCase()) ||
+      task.content.toLowerCase().includes(query.toLowerCase())
   );
 
   filteredTasks.forEach(renderTask); // Renderiza apenas as tarefas filtradas
