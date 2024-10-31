@@ -1,7 +1,6 @@
 const receiveBox = document.querySelector("#receivebox");
 let id = 0; // Inicializa o ID que será usado para cada tarefa
 let editingTaskId = null; // Variável para rastrear a tarefa que está sendo editada
-const usuarioId = 1; // ID do usuário autenticado (isso deve vir da sessão ou do login)
 
 // Função para adicionar ou esconder a caixa de texto
 const addText = () =>
@@ -29,7 +28,7 @@ const addTask = () => {
 
 // Função para criar uma nova tarefa
 const newTask = () => {
-  id++; // Incrementa o ID
+  id++;
 
   const data = new Date();
   const months = [
@@ -54,51 +53,47 @@ const newTask = () => {
     content: textIn.value,
     date: `${month} ${data.getDate()}, ${data.getFullYear()}`,
   };
-  // Adiciona a nova tarefa ao banco de dados
-  adicionarNota(newNote.content); // Chamada para adicionar nota no banco
+
   renderTask(newNote);
+  saveTask(newNote);
   clearInputs();
 };
 
-// Função para adicionar nota no banco de dados
-function adicionarNota(conteudo) {
-  console.log(`Adicionando nota: ${conteudo} para o usuário ${usuarioId}`);
-  fetch("notas.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: `usuario_id=${usuarioId}&conteudo=${encodeURIComponent(conteudo)}`,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data.message); // Exibe a mensagem de sucesso
-      carregarNotas(); // Atualiza a lista de notas após adicionar uma nova
-    })
-    .catch((error) => console.error("Erro:", error));
-}
+// Função para salvar a tarefa no Local Storage
+const saveTask = (task) => {
+  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks.push(task);
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+};
 
-// Função para carregar notas do banco de dados
-function carregarNotas() {
-  console.log("Carregando notas do banco de dados...");
-  fetch(`notas.php?usuario_id=${usuarioId}`)
-    .then((response) => response.json())
-    .then((notas) => {
-      // Limpa a interface antes de exibir novas notas
-      receiveBox.innerHTML = ""; // Limpa o conteúdo anterior
+document.getElementById("addRemovalIcons").addEventListener("click", () => {
+  document.querySelectorAll(".headerBox").forEach((header) => {
+    let taskId = header.parentNode.getAttribute("data-task-id"); // Assume que o div da tarefa é o elemento pai do header
+    if (!header.querySelector(".x")) {
+      // Evita adicionar múltiplos ícones
+      addRemoveIcon(header, taskId);
+    }
+  });
+});
 
-      notas.forEach((nota) => {
-        const notaTask = {
-          id: nota.id, // ID da nota do banco de dados
-          title: nota.titulo, // Título da nota
-          content: nota.conteudo, // Conteúdo da nota
-          date: nota.data, // Data da nota
-        };
-        renderTask(notaTask); // Renderiza a nota como tarefa
-      });
-    })
-    .catch((error) => console.error("Erro:", error));
-}
+const addRemoveIcon = (header, taskId) => {
+  let x = document.createElement("img");
+  x.classList.add("x");
+  x.src = "/resources/images/x.svg";
+  x.addEventListener("click", () => remover(taskId));
+  header.appendChild(x);
+};
+
+const remover = (taskId) => {
+  // Remove a tarefa da interface
+  let taskElement = document.querySelector(`div[data-task-id='${taskId}']`);
+  if (taskElement) taskElement.remove();
+
+  // Remove a tarefa do Local Storage
+  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks = tasks.filter((task) => task.id !== parseInt(taskId));
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+};
 
 // Função para renderizar uma tarefa na tela
 const renderTask = (task) => {
@@ -121,7 +116,7 @@ const renderTask = (task) => {
   taskDiv.appendChild(footer);
 
   let calendar = document.createElement("img");
-  calendar.src = "../resources/images/calendar.svg";
+  calendar.src = "/resources/images/calendar.svg";
   calendar.style.width = "15px";
   footer.appendChild(calendar);
 
@@ -148,22 +143,6 @@ const renderTask = (task) => {
   });
 };
 
-const saveTaskToDatabase = async (task) => {
-  const response = await fetch("caminho/para/seu/script.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      usuario_id: task.usuario_id, // ID do usuário autenticado
-      conteudo: task.content,
-    }),
-  });
-
-  const result = await response.json();
-  console.log(result); // Para depurar o que está sendo retornado
-};
-
 // Função para atualizar a tarefa existente
 const updateTask = (taskId) => {
   const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
@@ -184,7 +163,7 @@ const updateTask = (taskId) => {
 // Função para recarregar as tarefas na interface
 const refreshTasks = () => {
   receiveBox.innerHTML = "";
-  carregarNotas(); // Chama para recarregar as notas do banco de dados
+  loadTasks();
 };
 
 // Função para limpar os campos de entrada
@@ -195,7 +174,8 @@ const clearInputs = () => {
 
 // Função para carregar tarefas do Local Storage quando a página é carregada
 const loadTasks = () => {
-  carregarNotas(); // Carrega notas do banco de dados ao invés de Local Storage
+  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks.forEach(renderTask);
 };
 
 // Função para filtrar e exibir tarefas com base na pesquisa
@@ -221,4 +201,4 @@ searchInput.addEventListener("input", (e) => {
 // Carrega as tarefas armazenadas ao carregar a página
 document.addEventListener("DOMContentLoaded", loadTasks);
 
-// localStorage.clear();
+// localStorage.clear()

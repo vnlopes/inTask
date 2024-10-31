@@ -1,46 +1,45 @@
 <?php
-$host = 'localhost'; // ou o endereço do seu banco de dados
-$dbname = 'inTask';
-$username = 'seu_usuario';
-$password = 'sua_senha';
+session_start();
+require_once 'db_connect.php'; // Arquivo para conexão com o banco de dados
 
-try {
-    // Conexão com o banco de dados
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// Verifica se o usuário está logado
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php"); // Redireciona para a página de login
+    exit();
+}
 
-    // Verifica se é uma requisição POST
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $usuario_id = $_POST['usuario_id'];
-        $conteudo = $_POST['conteudo'];
+$user_id = $_SESSION['user_id'];
 
-        // Verifica se os dados necessários foram fornecidos
-        if (!empty($usuario_id) && !empty($conteudo)) {
-            // Insere a nova nota no banco de dados
-            $stmt = $pdo->prepare("INSERT INTO notas (usuario_id, conteudo) VALUES (:usuario_id, :conteudo)");
-            $stmt->bindParam(':usuario_id', $usuario_id);
-            $stmt->bindParam(':conteudo', $conteudo);
+// Função para salvar nota no banco de dados
+function salvarNota($user_id, $conteudo) {
+    global $conn;
+    $stmt = $conn->prepare("INSERT INTO notas (usuario_id, conteudo) VALUES (?, ?)");
+    $stmt->bind_param("is", $user_id, $conteudo);
+    return $stmt->execute();
+}
 
-            if ($stmt->execute()) {
-                echo json_encode(['message' => 'Nota adicionada com sucesso']);
-            } else {
-                echo json_encode(['message' => 'Erro ao adicionar nota']);
-            }
-        } else {
-            echo json_encode(['message' => 'Dados inválidos']);
-        }
-    } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        // Lógica para obter as notas do usuário
-        $usuario_id = $_GET['usuario_id'];
+// Função para recuperar notas do usuário logado
+function recuperarNotas($user_id) {
+    global $conn;
+    $stmt = $conn->prepare("SELECT * FROM notas WHERE usuario_id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
 
-        $stmt = $pdo->prepare("SELECT id, conteudo, data_criacao FROM notas WHERE usuario_id = :usuario_id");
-        $stmt->bindParam(':usuario_id', $usuario_id);
-        $stmt->execute();
+// Função para atualizar uma nota específica
+function atualizarNota($nota_id, $conteudo, $user_id) {
+    global $conn;
+    $stmt = $conn->prepare("UPDATE notas SET conteudo = ? WHERE id = ? AND usuario_id = ?");
+    $stmt->bind_param("sii", $conteudo, $nota_id, $user_id);
+    return $stmt->execute();
+}
 
-        $notas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode($notas);
-    }
-} catch (PDOException $e) {
-    echo json_encode(['message' => 'Erro na conexão: ' . $e->getMessage()]);
+// Função para apagar uma nota específica
+function apagarNota($nota_id, $user_id) {
+    global $conn;
+    $stmt = $conn->prepare("DELETE FROM notas WHERE id = ? AND usuario_id = ?");
+    $stmt->bind_param("ii", $nota_id, $user_id);
+    return $stmt->execute();
 }
 ?>
