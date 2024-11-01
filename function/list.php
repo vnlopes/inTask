@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+// var_dump($_SESSION);
 // Verifica se o usuário está logado
 if (!isset($_SESSION['username'])) {
     // Redireciona para a página de login se não estiver logado
@@ -10,10 +10,12 @@ if (!isset($_SESSION['username'])) {
 
 // Armazena o nome de usuário na variável
 $username = $_SESSION['username'];
+$user_id = $_SESSION['user_id'];
 ?>
 
 <script>
-    const currentUserId = <?php echo json_encode($username); ?>;
+    const currentUserName = <?php echo json_encode($username); ?>;  
+    const currentUserId = <?php echo json_encode($user_id); ?>;  
 </script>
 
 <!DOCTYPE html>

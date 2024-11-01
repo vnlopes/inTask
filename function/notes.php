@@ -12,7 +12,7 @@ try {
 
     // Captura as ações e parâmetros
     $action = $_GET['action'] ?? '';
-    $user_id = $_GET['user_id'] ?? 0;
+    $user_id = json_decode($_GET['user_id']);
 
     // Ação para adicionar notas
     if ($action == 'add') {
