@@ -1,7 +1,6 @@
 const receiveBox = document.querySelector("#receivebox");
 let id = 0; // Inicializa o ID que será usado para cada tarefa
 let editingTaskId = null; // Variável para rastrear a tarefa que está sendo editada
-
 // Função para adicionar ou esconder a caixa de texto
 const addText = () =>
   document.querySelector(".bodyText").classList.remove("hidden");
@@ -61,20 +60,26 @@ const newTask = () => {
 
 // Função para salvar a tarefa no Local Storage
 const saveTask = (task) => {
-  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-  tasks.push(task);
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-};
-
-document.getElementById("addRemovalIcons").addEventListener("click", () => {
-  document.querySelectorAll(".headerBox").forEach((header) => {
-    let taskId = header.parentNode.getAttribute("data-task-id"); // Assume que o div da tarefa é o elemento pai do header
-    if (!header.querySelector(".x")) {
-      // Evita adicionar múltiplos ícones
-      addRemoveIcon(header, taskId);
-    }
+  console.log("Enviando nota:", {
+    action: "add",
+    user_id: currentUserId,
+    title: task.title,
+    content: task.content,
   });
-});
+
+  fetch("notes.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      action: "add",
+      user_id: currentUserId, // Substitua por seu mecanismo de autenticação
+      title: task.title,
+      content: task.content,
+    }),
+  });
+};
 
 const addRemoveIcon = (header, taskId) => {
   let x = document.createElement("img");
@@ -85,20 +90,31 @@ const addRemoveIcon = (header, taskId) => {
 };
 
 const remover = (taskId) => {
-  // Remove a tarefa da interface
-  let taskElement = document.querySelector(`div[data-task-id='${taskId}']`);
-  if (taskElement) taskElement.remove();
+  console.log("Enviando nota:", {
+    action: "add",
+    user_id: currentUserId,
+    title: task.title,
+    content: task.content,
+  });
 
-  // Remove a tarefa do Local Storage
-  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-  tasks = tasks.filter((task) => task.id !== parseInt(taskId));
-  localStorage.setItem("tasks", JSON.stringify(tasks));
+  fetch("notes.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      action: "delete",
+      user_id: currentUserId,
+      id: taskId,
+    }),
+  }).then(() => {
+    refreshTasks();
+  });
 };
 
-// Função para renderizar uma tarefa na tela
 const renderTask = (task) => {
   let taskDiv = document.createElement("div");
-  taskDiv.classList.add("textbox");
+  taskDiv.classList.add("textbox", "border-none");
   taskDiv.setAttribute("data-task-id", task.id); // Atributo para identificar facilmente a tarefa
   receiveBox.appendChild(taskDiv);
 
@@ -116,7 +132,7 @@ const renderTask = (task) => {
   taskDiv.appendChild(footer);
 
   let calendar = document.createElement("img");
-  calendar.src = "/resources/images/calendar.svg";
+  calendar.src = "..//resources/images/calendar.svg";
   calendar.style.width = "15px";
   footer.appendChild(calendar);
 
@@ -130,7 +146,7 @@ const renderTask = (task) => {
   taskDiv.appendChild(receiveText);
 
   let text = document.createElement("span");
-  text.classList.add("textBox");
+  text.classList.add("textBox", "border-none");
   text.textContent = task.content.slice(0, 156);
   receiveText.appendChild(text);
 
@@ -145,19 +161,31 @@ const renderTask = (task) => {
 
 // Função para atualizar a tarefa existente
 const updateTask = (taskId) => {
-  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-  const taskIndex = tasks.findIndex((task) => task.id === taskId);
+  console.log("Enviando nota:", {
+    action: "add",
+    user_id: currentUserId,
+    title: task.title,
+    content: task.content,
+  });
 
-  if (taskIndex !== -1) {
-    tasks[taskIndex].title = titleIn.value;
-    tasks[taskIndex].content = textIn.value;
-
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+  fetch("notes.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      action: "update",
+      user_id: currentUserId,
+      id: taskId,
+      title: titleIn.value,
+      content: textIn.value,
+    }),
+  }).then(() => {
     refreshTasks();
     clearInputs();
-  }
+  });
 
-  editingTaskId = null; // Limpar o ID da tarefa em edição
+  editingTaskId = null;
 };
 
 // Função para recarregar as tarefas na interface
@@ -174,8 +202,13 @@ const clearInputs = () => {
 
 // Função para carregar tarefas do Local Storage quando a página é carregada
 const loadTasks = () => {
-  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-  tasks.forEach(renderTask);
+  fetch("notes.php?action=get&username=" + currentUserId)
+    .then((response) => response.json())
+    .then((data) => {
+      receiveBox.innerHTML = ""; // Limpa a área de exibição de notas
+      data.forEach(renderTask); // Renderiza cada nota do banco de dados
+    })
+    .catch((error) => console.error("Erro ao carregar notas:", error));
 };
 
 // Função para filtrar e exibir tarefas com base na pesquisa

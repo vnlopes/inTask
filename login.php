@@ -1,33 +1,83 @@
 <?php
+// session_start();
+// require('db.php');
+
+// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//     $username = $_POST['username'];
+//     $password = $_POST['password'];
+
+//     $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
+//     $stmt->bind_param("s", $username);
+//     $stmt->execute();
+//     $result = $stmt->get_result();
+
+//     if ($result->num_rows > 0) {
+//         $row = $result->fetch_assoc();
+//         $hashedPassword = $row['password'];
+
+//         if (password_verify($password, $hashedPassword)) {
+//             $_SESSION['username'] = $username;
+//             header("Location: function/list.php");
+//             exit();
+//         } else {
+//             echo "Login inválido!";
+//         }
+//     } else {
+//         echo "Login inválido!";
+//     }
+
+//     $stmt = $pdo->prepare("SELECT id, password FROM users WHERE username = :username");
+//     $stmt->execute(['username' => $username]);
+//     $user = $stmt->fetch();
+    
+//     if ($user && password_verify($password, $user['password'])) {
+//         // Armazena o ID e o nome de usuário na sessão após login bem-sucedido
+//         $_SESSION['user_id'] = $user['id'];
+//         $_SESSION['username'] = $username;
+//         header("Location: list.php"); // Redireciona para a página principal
+//         exit();
+//     } else {
+//         // Credenciais inválidas, mostre uma mensagem de erro
+//         echo "Nome de usuário ou senha incorretos.";
+//     }
+
+//     $stmt->close();
+//     $conn->close();
+// }
+
 session_start();
-require('db.php');
+require('db.php'); // Certifique-se de que este arquivo contém a conexão com MySQLi
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
+    // Preparar e executar a consulta para verificar o usuário
+    $stmt = $conn->prepare("SELECT id, password FROM users WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
 
+    // Verifica se o usuário existe
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $hashedPassword = $row['password'];
 
+        // Verifica a senha
         if (password_verify($password, $hashedPassword)) {
+            // Armazena o ID e o nome de usuário na sessão após login bem-sucedido
+            $_SESSION['user_id'] = $row['id'];
             $_SESSION['username'] = $username;
-            header("Location: function/list.php");
+            header("Location: function/list.php"); // Redireciona para a página principal
             exit();
         } else {
-            echo "Login inválido!";
+            echo "Nome de usuário ou senha incorretos.";
         }
     } else {
-        echo "Login inválido!";
+        echo "Nome de usuário ou senha incorretos.";
     }
 
     $stmt->close();
-    $conn->close();
 }
 ?>
 

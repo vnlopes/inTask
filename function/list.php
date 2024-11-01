@@ -12,6 +12,10 @@ if (!isset($_SESSION['username'])) {
 $username = $_SESSION['username'];
 ?>
 
+<script>
+    const currentUserId = <?php echo json_encode($username); ?>;
+</script>
+
 <!DOCTYPE html>
 <html lang="pt-br">
   <head>
@@ -139,7 +143,7 @@ $username = $_SESSION['username'];
 
           <section
             id="receivebox"
-            class="flex gap-6 lg:px-20 flex-col items-center sm:flex-col md:flex-row w-full h-full"
+            class="flex gap-6 lg:px-20 flex-col sm:flex-col md:flex-row w-full h-full"
           >
             <!-- <div
               class="textbox w-[350px] relative h-[220px] border border-solid border-[#3F3F3F] rounded-lg bg-[#1F1F1F]"
