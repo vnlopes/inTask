@@ -18,45 +18,67 @@ const addTask = () => {
     document.querySelector(".bodyText").classList.add("hidden");
 
     if (editingTaskId) {
-      updateTask(editingTaskId);
+      updateTask(editingTaskId); // Chama para atualizar a tarefa
     } else {
-      newTask();
+      newTask(); // Chama para adicionar uma nova tarefa
     }
+
+    // Limpa os campos de entrada após a ação
+    titleIn.value = "";
+    textIn.value = "";
   }
 };
 
+
+
+// const addTask = (title, content) => {
+//   fetch(`notes.php?action=add&user_id=${currentUserId}&title=${encodeURIComponent(title)}&content=${encodeURIComponent(content)}`)
+//       .then(response => response.json())
+//       .then(data => {
+//           console.log(data);
+//           // Aqui você pode adicionar lógica para atualizar a interface após a inserção
+//       })
+//       .catch(error => console.error("Erro ao adicionar nota:", error));
+// };
+
+// Função para criar uma nova tarefa
 // Função para criar uma nova tarefa
 const newTask = () => {
-  id++;
+  // Não precisa incrementar o ID aqui se o ID é gerado pelo banco de dados
+  const title = titleIn.value;
+  const content = textIn.value;
 
-  const data = new Date();
-  const months = [
-    "Jan",
-    "Fev",
-    "Mar",
-    "Abr",
-    "Mai",
-    "Jun",
-    "Jul",
-    "Ago",
-    "Set",
-    "Out",
-    "Nov",
-    "Dez",
-  ];
-  let month = months[data.getMonth()];
+  // Faz uma requisição para adicionar a nova nota no banco de dados
+  fetch(`notes.php?action=add&user_id=${currentUserId}&title=${encodeURIComponent(title)}&content=${encodeURIComponent(content)}`, {
+    method: 'GET' // Considere usar POST para melhor prática
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        // Se a adição foi bem-sucedida, renderize a nova nota
+        const data = new Date();
+        const months = [
+          "Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
+          "Jul", "Ago", "Set", "Out", "Nov", "Dez"
+        ];
+        let month = months[data.getMonth()];
 
-  const newNote = {
-    id: id,
-    title: titleIn.value,
-    content: textIn.value,
-    date: `${month} ${data.getDate()}, ${data.getFullYear()}`,
-  };
+        const newNote = {
+          id: data.id, // O ID pode ser retornado do banco de dados, se necessário
+          title: title,
+          content: content,
+          date: `${month} ${data.getDate()}, ${data.getFullYear()}`
+        };
 
-  renderTask(newNote);
-  saveTask(newNote);
-  clearInputs();
+        renderTask(newNote); // Renderiza a nova tarefa
+        clearInputs(); // Limpa os campos de entrada
+      } else {
+        alert(data.message); // Mensagem de erro se a inserção falhar
+      }
+    })
+    .catch(error => console.error("Erro ao adicionar nota:", error));
 };
+
 
 // Função para salvar a tarefa no Local Storage
 const saveTask = (task) => {
@@ -196,13 +218,14 @@ const refreshTasks = () => {
 
 // Função para limpar os campos de entrada
 const clearInputs = () => {
-  textIn.value = "";
-  titleIn.value = "";
+  titleIn.value = ""; // Limpa o campo de título
+  textIn.value = ""; // Limpa o campo de conteúdo
 };
+
 
 // Função para carregar tarefas do Local Storage quando a página é carregada
 const loadTasks = () => {
-  fetch("notes.php?action=get&username=" + currentUserId)
+  fetch("notes.php?action=get&user_id=" + currentUserId) // Alterado de 'username' para 'user_id'
     .then((response) => response.json())
     .then((data) => {
       receiveBox.innerHTML = ""; // Limpa a área de exibição de notas
