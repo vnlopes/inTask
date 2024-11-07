@@ -12,7 +12,7 @@ try {
 
     // Captura as ações e parâmetros
     $action = $_GET['action'] ?? '';
-    $user_id = json_decode($_GET['user_id']);
+    $user_id = $_GET['user_id'] ?? '';  // Corrigido para receber como string diretamente
 
     // Ação para adicionar notas
     if ($action == 'add') {
@@ -43,8 +43,8 @@ try {
     // Ação para deletar notas
     } elseif ($action == 'delete') {
         $id = $_GET['id'] ?? 0; // Adicionando valor padrão para evitar erros
-        $stmt = $conn->prepare("DELETE FROM notes WHERE id = :id AND user_id = :user_id");
-        $stmt->execute(['id' => $id, 'user_id' => $user_id]);
+        $stmt = $conn->prepare("DELETE FROM notes WHERE id = :id");
+        $stmt->execute(['id' => $id]);
         echo json_encode(['status' => 'success', 'message' => 'Nota deletada com sucesso.']);
         
     } else {

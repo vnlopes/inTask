@@ -8,15 +8,21 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
+$userId = $_SESSION['user_id'];
+
 // Armazena o nome de usuário na variável
 $username = $_SESSION['username'];
 $user_id = $_SESSION['user_id'];
+
+// echo $user_id
+
 ?>
 
 <script>
     const currentUserName = <?php echo json_encode($username); ?>;  
     const currentUserId = <?php echo json_encode($user_id); ?>;  
 </script>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -25,7 +31,7 @@ $user_id = $_SESSION['user_id'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Não deixe suas tarefas para depois.</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="..//resources/css/style.css" />
+    <link rel="stylesheet" href="../resources/css/style.css" />
     <link
       rel="shortcut icon"
       href="..//resources/images/logo-icon.svg"
@@ -43,6 +49,12 @@ $user_id = $_SESSION['user_id'];
             z-index: 1000;
         }
     </style>
+
+    <script>
+    //     const userId = <?php echo json_encode($userId); ?>;
+    //     console.log("ID do usuário: ", userId);
+    // </script>
+
     <script>
         // Função para mostrar o pop-up
         function showPopup() {

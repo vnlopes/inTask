@@ -10,6 +10,8 @@ const backNotes = () =>
 let textIn = document.querySelector("textarea");
 let titleIn = document.querySelector(".title");
 
+console.log("currentUserId:", currentUserId); // Verifique se o valor é correto
+
 // Função para adicionar tarefa
 const addTask = () => {
   if (textIn.value === "" || titleIn.value === "") {
@@ -29,36 +31,22 @@ const addTask = () => {
   }
 };
 
-// const addTask = (title, content) => {
-//   fetch(`notes.php?action=add&user_id=${currentUserId}&title=${encodeURIComponent(title)}&content=${encodeURIComponent(content)}`)
-//       .then(response => response.json())
-//       .then(data => {
-//           console.log(data);
-//           // Aqui você pode adicionar lógica para atualizar a interface após a inserção
-//       })
-//       .catch(error => console.error("Erro ao adicionar nota:", error));
-// };
-
-// Função para criar uma nova tarefa
 // Função para criar uma nova tarefa
 const newTask = () => {
-  // Não precisa incrementar o ID aqui se o ID é gerado pelo banco de dados
   const title = titleIn.value;
   const content = textIn.value;
 
-  // Faz uma requisição para adicionar a nova nota no banco de dados
   fetch(
     `notes.php?action=add&user_id=${currentUserId}&title=${encodeURIComponent(
       title
     )}&content=${encodeURIComponent(content)}`,
     {
-      method: "GET", // Considere usar POST para melhor prática
+      method: "GET",
     }
   )
     .then((response) => response.json())
     .then((data) => {
       if (data.status === "success") {
-        // Se a adição foi bem-sucedida, renderize a nova nota
         const data = new Date();
         const months = [
           "Jan",
@@ -94,13 +82,6 @@ const newTask = () => {
 
 // Função para salvar a tarefa no Local Storage
 const saveTask = (task) => {
-  console.log("Enviando nota:", {
-    action: "add",
-    user_id: currentUserId,
-    title: task.title,
-    content: task.content,
-  });
-
   fetch("notes.php", {
     method: "POST",
     headers: {
@@ -108,35 +89,31 @@ const saveTask = (task) => {
     },
     body: new URLSearchParams({
       action: "add",
-      user_id: currentUserId, // Substitua por seu mecanismo de autenticação
+      user_id: currentUserId,
       title: task.title,
       content: task.content,
     }),
   });
 };
-
-const remover = (taskId) => {
-  fetch("notes.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams({
-      action: "delete",
-      user_id: currentUserId,
-      id: taskId,
-    }),
+http://localhost/inTask/function/notes.php?action=delete&id=1
+function remover(id) {
+  fetch(`notes.php?action=delete&id=${id}`, {
+    method: "GET",
   })
-    .then((response) => response.json())
+    .then((response) => response.json()) // Espera um JSON como resposta
     .then((data) => {
       if (data.status === "success") {
-        refreshTasks(); // Atualiza a lista de tarefas após exclusão bem-sucedida
+        console.log("Tarefa removida com sucesso");
+        // Remover a tarefa da lista ou fazer outra ação
+        document.querySelector(`[data-task-id="${id}"]`).remove(); // Remove o elemento da interface
       } else {
-        alert("Erro ao deletar a tarefa.");
+        console.log("Erro ao remover a tarefa:", data.message);
       }
     })
-    .catch((error) => console.error("Erro ao excluir nota:", error));
-};
+    .catch((error) => {
+      console.error("Erro na requisição:", error);
+    });
+}
 
 const renderTask = (task) => {
   let taskDiv = document.createElement("div");
@@ -185,35 +162,37 @@ const renderTask = (task) => {
     textIn.value = task.content;
     editingTaskId = task.id; // Define o ID da tarefa que está sendo editada
 
-    // Verifica se o header existe e se o ícone de remoção já não foi adicionado
-    if (header && !header.querySelector(".x")) {
+    // Adiciona o ícone de remoção
+    if (!header.querySelector(".x")) {
       addRemoveIcon(header, task.id);
     }
   });
 };
 
 const addRemoveIcon = (header, taskId) => {
-  if (!header) {
-    console.error("Elemento 'header' não definido para addRemoveIcon.");
-    return;
-  }
+  // Selecione todos os headers das tasks
+  const headers = document.querySelectorAll(".textbox header");
 
-  let x = document.createElement("img");
-  x.classList.add("x");
-  x.src = "/inTask/resources/images/x.svg";
-  x.addEventListener("click", () => remover(taskId));
-  header.appendChild(x);
+  headers.forEach((header) => {
+    // Verifica se o ícone de remoção já existe
+    if (!header.querySelector(".x")) {
+      let x = document.createElement("img");
+      x.classList.add("x");
+      x.src = "..//resources/images/x.svg";
+
+      // Adiciona o evento de remoção
+      x.addEventListener("click", (e) => {
+        const taskId = header.closest(".textbox").getAttribute("data-task-id");
+        remover(taskId); // Passa tanto o ID da tarefa quanto o user_id para a função de remoção
+      });
+
+      header.appendChild(x); // Adiciona o ícone ao header
+    }
+  });
 };
 
 // Função para atualizar a tarefa existente
 const updateTask = (taskId) => {
-  console.log("Enviando nota:", {
-    action: "add",
-    user_id: currentUserId,
-    title: task.title,
-    content: task.content,
-  });
-
   fetch("notes.php", {
     method: "POST",
     headers: {
@@ -248,7 +227,7 @@ const clearInputs = () => {
 
 // Função para carregar tarefas do Local Storage quando a página é carregada
 const loadTasks = () => {
-  fetch("notes.php?action=get&user_id=" + currentUserId) // Alterado de 'username' para 'user_id'
+  fetch("notes.php?action=get&user_id=" + currentUserId)
     .then((response) => response.json())
     .then((data) => {
       receiveBox.innerHTML = ""; // Limpa a área de exibição de notas
@@ -281,5 +260,3 @@ searchInput.addEventListener("input", (e) => {
 
 // Carrega as tarefas armazenadas ao carregar a página
 document.addEventListener("DOMContentLoaded", loadTasks);
-
-// localStorage.clear()
