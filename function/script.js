@@ -29,8 +29,6 @@ const addTask = () => {
   }
 };
 
-
-
 // const addTask = (title, content) => {
 //   fetch(`notes.php?action=add&user_id=${currentUserId}&title=${encodeURIComponent(title)}&content=${encodeURIComponent(content)}`)
 //       .then(response => response.json())
@@ -49,17 +47,32 @@ const newTask = () => {
   const content = textIn.value;
 
   // Faz uma requisição para adicionar a nova nota no banco de dados
-  fetch(`notes.php?action=add&user_id=${currentUserId}&title=${encodeURIComponent(title)}&content=${encodeURIComponent(content)}`, {
-    method: 'GET' // Considere usar POST para melhor prática
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === 'success') {
+  fetch(
+    `notes.php?action=add&user_id=${currentUserId}&title=${encodeURIComponent(
+      title
+    )}&content=${encodeURIComponent(content)}`,
+    {
+      method: "GET", // Considere usar POST para melhor prática
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === "success") {
         // Se a adição foi bem-sucedida, renderize a nova nota
         const data = new Date();
         const months = [
-          "Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
-          "Jul", "Ago", "Set", "Out", "Nov", "Dez"
+          "Jan",
+          "Fev",
+          "Mar",
+          "Abr",
+          "Mai",
+          "Jun",
+          "Jul",
+          "Ago",
+          "Set",
+          "Out",
+          "Nov",
+          "Dez",
         ];
         let month = months[data.getMonth()];
 
@@ -67,7 +80,7 @@ const newTask = () => {
           id: data.id, // O ID pode ser retornado do banco de dados, se necessário
           title: title,
           content: content,
-          date: `${month} ${data.getDate()}, ${data.getFullYear()}`
+          date: `${month} ${data.getDate()}, ${data.getFullYear()}`,
         };
 
         renderTask(newNote); // Renderiza a nova tarefa
@@ -76,9 +89,8 @@ const newTask = () => {
         alert(data.message); // Mensagem de erro se a inserção falhar
       }
     })
-    .catch(error => console.error("Erro ao adicionar nota:", error));
+    .catch((error) => console.error("Erro ao adicionar nota:", error));
 };
-
 
 // Função para salvar a tarefa no Local Storage
 const saveTask = (task) => {
@@ -103,22 +115,7 @@ const saveTask = (task) => {
   });
 };
 
-const addRemoveIcon = (header, taskId) => {
-  let x = document.createElement("img");
-  x.classList.add("x");
-  x.src = "/resources/images/x.svg";
-  x.addEventListener("click", () => remover(taskId));
-  header.appendChild(x);
-};
-
 const remover = (taskId) => {
-  console.log("Enviando nota:", {
-    action: "add",
-    user_id: currentUserId,
-    title: task.title,
-    content: task.content,
-  });
-
   fetch("notes.php", {
     method: "POST",
     headers: {
@@ -129,21 +126,30 @@ const remover = (taskId) => {
       user_id: currentUserId,
       id: taskId,
     }),
-  }).then(() => {
-    refreshTasks();
-  });
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === "success") {
+        refreshTasks(); // Atualiza a lista de tarefas após exclusão bem-sucedida
+      } else {
+        alert("Erro ao deletar a tarefa.");
+      }
+    })
+    .catch((error) => console.error("Erro ao excluir nota:", error));
 };
 
 const renderTask = (task) => {
   let taskDiv = document.createElement("div");
   taskDiv.classList.add("textbox", "border-none");
-  taskDiv.setAttribute("data-task-id", task.id); // Atributo para identificar facilmente a tarefa
+  taskDiv.setAttribute("data-task-id", task.id);
   receiveBox.appendChild(taskDiv);
 
+  // Criação do header
   let header = document.createElement("header");
   header.classList.add("headerBox");
   taskDiv.appendChild(header);
 
+  // Adiciona o título da tarefa no header
   let title = document.createElement("span");
   title.classList.add("titleBox");
   title.textContent = task.title;
@@ -154,7 +160,7 @@ const renderTask = (task) => {
   taskDiv.appendChild(footer);
 
   let calendar = document.createElement("img");
-  calendar.src = "..//resources/images/calendar.svg";
+  calendar.src = "../resources/images/calendar.svg";
   calendar.style.width = "15px";
   footer.appendChild(calendar);
 
@@ -177,8 +183,26 @@ const renderTask = (task) => {
     document.querySelector(".bodyText").classList.remove("hidden");
     titleIn.value = task.title;
     textIn.value = task.content;
-    editingTaskId = task.id; // Definir o ID da tarefa que está sendo editada
+    editingTaskId = task.id; // Define o ID da tarefa que está sendo editada
+
+    // Verifica se o header existe e se o ícone de remoção já não foi adicionado
+    if (header && !header.querySelector(".x")) {
+      addRemoveIcon(header, task.id);
+    }
   });
+};
+
+const addRemoveIcon = (header, taskId) => {
+  if (!header) {
+    console.error("Elemento 'header' não definido para addRemoveIcon.");
+    return;
+  }
+
+  let x = document.createElement("img");
+  x.classList.add("x");
+  x.src = "/inTask/resources/images/x.svg";
+  x.addEventListener("click", () => remover(taskId));
+  header.appendChild(x);
 };
 
 // Função para atualizar a tarefa existente
@@ -222,7 +246,6 @@ const clearInputs = () => {
   textIn.value = ""; // Limpa o campo de conteúdo
 };
 
-
 // Função para carregar tarefas do Local Storage quando a página é carregada
 const loadTasks = () => {
   fetch("notes.php?action=get&user_id=" + currentUserId) // Alterado de 'username' para 'user_id'
@@ -236,16 +259,18 @@ const loadTasks = () => {
 
 // Função para filtrar e exibir tarefas com base na pesquisa
 const searchTasks = (query) => {
-  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-  receiveBox.innerHTML = ""; // Limpa a área de exibição de tarefas
-
-  const filteredTasks = tasks.filter(
-    (task) =>
-      task.title.toLowerCase().includes(query.toLowerCase()) ||
-      task.content.toLowerCase().includes(query.toLowerCase())
-  );
-
-  filteredTasks.forEach(renderTask); // Renderiza apenas as tarefas filtradas
+  fetch("notes.php?action=get&user_id=" + currentUserId)
+    .then((response) => response.json())
+    .then((data) => {
+      const filteredTasks = data.filter(
+        (task) =>
+          task.title.toLowerCase().includes(query.toLowerCase()) ||
+          task.content.toLowerCase().includes(query.toLowerCase())
+      );
+      receiveBox.innerHTML = ""; // Limpa a área de exibição de tarefas
+      filteredTasks.forEach(renderTask); // Renderiza as tarefas filtradas
+    })
+    .catch((error) => console.error("Erro ao carregar notas:", error));
 };
 
 // Evento para capturar a pesquisa em tempo real

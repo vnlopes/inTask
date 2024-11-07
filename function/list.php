@@ -132,9 +132,7 @@ $user_id = $_SESSION['user_id'];
             >
               <img src="/resources/images/pen.svg" alt="" />
             </button> -->
-            <button
-              id="addRemovalIcons"
-              class="bg-[#520005] rounded-lg text-black font-medium justify-center border border-solid border-[#FF0000] text-sm w-[42px] h-[42px] flex gap-2 items-center"
+            <button onclick="addRemoveIcon()" class="bg-[#520005] rounded-lg text-black font-medium justify-center border border-solid border-[#FF0000] text-sm w-[42px] h-[42px] flex gap-2 items-center"
             >
               <img src="..//resources/images/trash.svg" alt="" />
             </button>
