@@ -1,59 +1,116 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Tempo de geração: 08-Nov-2024 às 16:57
+-- Versão do servidor: 10.4.32-MariaDB
+-- versão do PHP: 8.2.12
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
+--
+-- Banco de dados: `intask`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `notes`
+--
 
 CREATE TABLE `notes` (
-  `id` int(11) AUTO_INCREMENT NOT NULL,
+  `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `content` text NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp()
+  `date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `priority` enum('Moiô','Tá safe','Atenção baguá') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `notes` (`id`, `user_id`, `title`, `content`, `date`) VALUES
-(6, 10, '321312', '3123', '2024-11-01 15:43:58'),
-(7, 10, 'rafa', 'dawdw', '2024-11-01 15:48:49');
+--
+-- Extraindo dados da tabela `notes`
+--
+
+INSERT INTO `notes` (`id`, `user_id`, `title`, `content`, `date`, `priority`) VALUES
+(48, 4, 'fuhg', 'sdraew', '2024-11-08 14:39:14', 'Moiô'),
+(49, 4, 'we', 'sfd', '2024-11-08 14:39:53', 'Moiô'),
+(63, 1, 'dawdadw', 'dawdaw', '2024-11-08 15:44:49', 'Moiô'),
+(64, 1, 'awdawdawdawdawd', 'dwawdawd', '2024-11-08 15:57:18', 'Moiô');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `users`
+--
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `is_admin` tinyint(1) DEFAULT 0,
-  `role` enum('admin','user') DEFAULT 'user',
-  PRIMARY KEY (`id`)
-); ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `role` enum('admin','user') DEFAULT 'user'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `users`
+--
 
 INSERT INTO `users` (`id`, `username`, `password`, `created_at`, `is_admin`, `role`) VALUES
-(4, 'vnlopes', 'admin', '2024-10-25 15:24:56', 0, 'admin'),
-(10, 'vnlopes1', '$2y$10$LV9tf0aXxgW8yYAMYEWYd.8fJrg1evgimG20WHWNKdq9/Qu1WFhze', '2024-11-01 13:01:56', 0, 'user'),
-(11, 'rafa', '$2y$10$UKknhiovCS/wYt8vEH0JSuqh8aeXc7OBQqKZyOjfN6g99jpOhp2UC', '2024-11-01 13:02:43', 0, 'user'),
-(12, 'vania', '$2y$10$8fpPWyyKEnPLdndYQAYe2OFPgbty5usOK62hCSulPsQtzDzt8q7De', '2024-11-01 14:10:59', 0, 'user');
+(1, 'vnlopes', '$2y$10$s5v7DChohMGYXBTS12oh8eaJ9WoImPe46TJ17C5qawdIQwNAV8SE6', '2024-11-07 14:16:48', 0, 'user'),
+(4, 'rafa', '$2y$10$ChmQkynUbAebuz808rvx5.bl3OXKyvt/n8P6fzTAKbcDy1fPPQHvm', '2024-11-07 15:37:43', 0, 'user');
 
+--
+-- Índices para tabelas despejadas
+--
 
+--
+-- Índices para tabela `notes`
+--
 ALTER TABLE `notes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`);
 
+--
+-- Índices para tabela `users`
+--
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
+--
+-- AUTO_INCREMENT de tabelas despejadas
+--
 
+--
+-- AUTO_INCREMENT de tabela `notes`
+--
 ALTER TABLE `notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
+--
+-- AUTO_INCREMENT de tabela `users`
+--
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
+--
+-- Restrições para despejos de tabelas
+--
 
+--
+-- Limitadores para a tabela `notes`
+--
 ALTER TABLE `notes`
-  ADD CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `notes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

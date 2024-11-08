@@ -65,7 +65,7 @@ const newTask = () => {
         let month = months[data.getMonth()];
 
         const newNote = {
-          id: data.id, // O ID pode ser retornado do banco de dados, se necessário
+          id: data.id,
           title: title,
           content: content,
           date: `${month} ${data.getDate()}, ${data.getFullYear()}`,
@@ -73,6 +73,9 @@ const newTask = () => {
 
         renderTask(newNote); // Renderiza a nova tarefa
         clearInputs(); // Limpa os campos de entrada
+
+        // Redireciona para a página de definição de prioridade
+        // window.location.href = `define-priority.html?task_id=${data.id}`;
       } else {
         alert(data.message); // Mensagem de erro se a inserção falhar
       }
@@ -133,21 +136,25 @@ const renderTask = (task) => {
   header.appendChild(title);
 
   let footer = document.createElement("footer");
-  footer.classList.add("footerBox");
+  footer.classList.add("footerBox", "justify-between");
   taskDiv.appendChild(footer);
+
+  let divCalDate = document.createElement("div");
+  divCalDate.classList.add("flex", "gap-[15px]");
+  footer.appendChild(divCalDate);
 
   let calendar = document.createElement("img");
   calendar.src = "../resources/images/calendar.svg";
   calendar.style.width = "15px";
-  footer.appendChild(calendar);
+  divCalDate.appendChild(calendar);
 
   let date = document.createElement("span");
   date.classList.add("date");
   date.textContent = task.date;
-  footer.appendChild(date);
+  divCalDate.appendChild(date);
 
   let receiveText = document.createElement("main");
-  receiveText.classList.add("receiveText");
+  receiveText.classList.add("receiveText", "h-full");
   taskDiv.appendChild(receiveText);
 
   let text = document.createElement("span");
@@ -155,18 +162,30 @@ const renderTask = (task) => {
   text.textContent = task.content.slice(0, 156);
   receiveText.appendChild(text);
 
-  // Evento de clique para carregar o conteúdo da tarefa na área de edição
-  // Evento de clique para carregar o conteúdo da tarefa na área de edição
-  taskDiv.addEventListener("click", () => {
+  let radio = document.createElement("div");
+  radio.classList.add(
+    "w-[15px]",
+    "h-[15px]",
+    "bg-[#ff220080]",
+    "rounded-full",
+    "border-solid",
+    "border-[#ff2200]",
+    "border-2"
+  );
+  footer.appendChild(radio);
+
+  receiveText.addEventListener("click", () => {
     document.querySelector(".bodyText").classList.remove("hidden"); // Exibe a área de edição
     titleIn.value = task.title; // Preenche o campo de título com o título da tarefa
     textIn.value = task.content; // Preenche o campo de texto com o conteúdo da tarefa
     editingTaskId = task.id; // Define o ID da tarefa que está sendo editada
+  });
 
-    // Adiciona o ícone de remoção, se necessário
-    if (!header.querySelector(".x")) {
-      addRemoveIcon(header, task.id);
-    }
+  title.addEventListener("click", () => {
+    document.querySelector(".bodyText").classList.remove("hidden"); // Exibe a área de edição
+    titleIn.value = task.title; // Preenche o campo de título com o título da tarefa
+    textIn.value = task.content; // Preenche o campo de texto com o conteúdo da tarefa
+    editingTaskId = task.id; // Define o ID da tarefa que está sendo editada
   });
 };
 
@@ -176,9 +195,15 @@ const addRemoveIcon = (header, taskId) => {
 
   headers.forEach((header) => {
     // Verifica se o ícone de remoção já existe
-    if (!header.querySelector(".x")) {
+    const existingIcon = header.querySelector(".x");
+
+    if (existingIcon) {
+      // Se o ícone de remoção existe, remova-o
+      existingIcon.remove();
+    } else {
+      // Se o ícone de remoção não existe, cria e adiciona
       let x = document.createElement("img");
-      x.classList.add("x");
+      x.classList.add("x", "absolute", "z-10");
       x.src = "..//resources/images/x.svg";
 
       // Adiciona o evento de remoção
@@ -267,3 +292,30 @@ searchInput.addEventListener("input", (e) => {
 
 // Carrega as tarefas armazenadas ao carregar a página
 document.addEventListener("DOMContentLoaded", loadTasks);
+
+// //salvar login:
+// const login = (userId) => {
+//   localStorage.setItem("currentUserId", userId); // Armazenando o ID do usuário no localStorage
+//   loadTasks(); // Carrega as tarefas assim que o usuário loga
+// };
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   const currentUserId = localStorage.getItem("currentUserId"); // Verifica se há um usuário logado
+
+//   if (currentUserId) {
+//     console.log("Usuário logado com ID:", currentUserId);
+//     loadTasks(); // Carrega as tarefas do usuário
+//   } else {
+//     console.log("Usuário não está logado.");
+//     // Redireciona ou mostra uma tela de login
+//   }
+// });
+
+// //logout
+
+// const logout = () => {
+//   localStorage.removeItem("currentUserId"); // Remove o ID do usuário do localStorage
+//   window.location.reload(); // Recarrega a página ou redireciona para a tela de login
+// };
+
+// document.getElementById("logoutButton").addEventListener("click", logout);

@@ -78,6 +78,7 @@ $user_id = $_SESSION['user_id'];
     />
 
     <main class="min-h-screen flex flex-col items-center overflow-x-hidden w-full">
+
       <header
         class="justify-center items-center relative bg-[#040404] w-full flex h-[70px] border-solid boder-1 border-b border-zinc-900"
       >
@@ -115,6 +116,8 @@ $user_id = $_SESSION['user_id'];
         </nav>
 
       </header>
+
+      <!-- <button id="logoutButton" class="py-3 px-6 bg-white hover:bg-zinc-200 transition-[.2s] rounded-[8px] w-fit h-fit font-medium text-xl  ">Logout</button> -->
 
       <body class="bg-black text-white flex flex-col items-center justify-center h-screen">
 

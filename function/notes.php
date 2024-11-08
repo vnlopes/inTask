@@ -32,6 +32,27 @@ try {
         echo json_encode($notes);
         
     // Ação para atualizar notas
+    } elseif ($_GET['action'] == 'updatePriority') {
+        $taskId = $_GET['task_id'];
+        $priority = $_GET['priority'];
+    
+        try {
+            // Conectar ao banco de dados
+            $pdo = new PDO('mysql:host=localhost;dbname=inTask', 'root', '');
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+            // Atualizar a prioridade da tarefa no banco de dados
+            $stmt = $pdo->prepare("UPDATE notes SET priority = :priority WHERE id = :task_id");
+            $stmt->execute([':priority' => $priority, ':task_id' => $taskId]);
+            $sql = "INSERT INTO notes (title, description, priority) VALUES (:title, :description, :priority)";
+            // Retornar resposta JSON de sucesso
+            echo json_encode(['status' => 'success']);
+        } catch (Exception $e) {
+            // Caso ocorra um erro, retornar a mensagem de erro em formato JSON
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+    
+        exit;  // Não continuar processando o script após retornar a resposta
     } elseif ($action == 'update') {
         $id = $_GET['id'] ?? 0; // Adicionando valor padrão para evitar erros
         $title = $_GET['title'] ?? ''; // Adicionando valor padrão para evitar erros
