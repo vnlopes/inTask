@@ -95,8 +95,8 @@ const saveTask = (task) => {
     }),
   });
 };
-http://localhost/inTask/function/notes.php?action=delete&id=1
-function remover(id) {
+//localhost/inTask/function/notes.php?action=delete&id=1
+http: function remover(id) {
   fetch(`notes.php?action=delete&id=${id}`, {
     method: "GET",
   })
@@ -156,13 +156,14 @@ const renderTask = (task) => {
   receiveText.appendChild(text);
 
   // Evento de clique para carregar o conteúdo da tarefa na área de edição
-  receiveText.addEventListener("click", () => {
-    document.querySelector(".bodyText").classList.remove("hidden");
-    titleIn.value = task.title;
-    textIn.value = task.content;
+  // Evento de clique para carregar o conteúdo da tarefa na área de edição
+  taskDiv.addEventListener("click", () => {
+    document.querySelector(".bodyText").classList.remove("hidden"); // Exibe a área de edição
+    titleIn.value = task.title; // Preenche o campo de título com o título da tarefa
+    textIn.value = task.content; // Preenche o campo de texto com o conteúdo da tarefa
     editingTaskId = task.id; // Define o ID da tarefa que está sendo editada
 
-    // Adiciona o ícone de remoção
+    // Adiciona o ícone de remoção, se necessário
     if (!header.querySelector(".x")) {
       addRemoveIcon(header, task.id);
     }
@@ -193,24 +194,30 @@ const addRemoveIcon = (header, taskId) => {
 
 // Função para atualizar a tarefa existente
 const updateTask = (taskId) => {
-  fetch("notes.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams({
-      action: "update",
-      user_id: currentUserId,
-      id: taskId,
-      title: titleIn.value,
-      content: textIn.value,
-    }),
-  }).then(() => {
-    refreshTasks();
-    clearInputs();
-  });
+  console.log("Updating task with ID:", taskId);
 
-  editingTaskId = null;
+  // Preparar URL para GET
+  const url = `notes.php?action=update&user_id=${currentUserId}&id=${taskId}&title=${encodeURIComponent(
+    titleIn.value
+  )}&content=${encodeURIComponent(textIn.value)}`;
+
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Update response:", data);
+      if (data.status === "success") {
+        // Atualiza a tarefa no frontend
+        refreshTasks();
+        clearInputs();
+      } else {
+        console.error("Erro ao atualizar a tarefa:", data.message);
+      }
+    })
+    .catch((error) => {
+      console.error("Erro na requisição:", error);
+    });
+
+  editingTaskId = null; // Resetar o ID de edição
 };
 
 // Função para recarregar as tarefas na interface

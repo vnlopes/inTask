@@ -71,8 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <nav
           class="center-header px-[70px] relative max-w-[1440px] w-full flex items-center justify-between"
         >
-          <a href="..//inTask/index.html">
-            <img src="..//inTask/resources/images/logo.svg" alt="" />
+          <a href="./index.html">
+            <img src="./resources/images/logo.svg" alt="" />
           </a>
           <ul class="links font-medium hidden md:flex gap-8">
             <a class="text-white" href="#">Inicio</a>
@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         >
           <div class="flex w-full px-[70px] justify-between max-w-[1440px]">
             <nav class="flex items-center justify-between h-full">
-              <img class="h-[24px]" src="/resources/images/logo.svg" alt="" />
+              <img class="h-[24px]" src="./resources/images/logo.svg" alt="" />
             </nav>
             <nav>
               <div class="lg:flex hidden gap-8">
