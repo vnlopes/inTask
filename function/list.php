@@ -126,7 +126,7 @@ $user_id = $_SESSION['user_id'];
     </div>
 
       <main class="w-full min-h-[900px] mb-[200px] flex justify-center">
-        <section class="w-[1440px] flex flex-col gap-6 pt-6 justify-center h-full px-[70px]">
+        <section class="w-[1440px] flex flex-col gap-6 pt-6 mt-[20px] h-full px-[70px]">
           <header class="w-full md:justify-start justify-center flex text-white text-3xl">Suas Tarefas</header>
           <header class="w-full md:justify-center items-center text-white text-xl gap-2 md:flex-row flex-col flex">
             <input
@@ -158,7 +158,7 @@ $user_id = $_SESSION['user_id'];
 
           <section
             id="receivebox"
-            class="flex gap-6 lg:px-20 flex-col sm:flex-col md:flex-row w-full h-full"
+            class="flex gap-6 lg:px-20 flex-col sm:flex-col md:flex-row w-full flex-wrap"
           >
             <!-- <div
               class="textbox w-[350px] relative h-[220px] border border-solid border-[#3F3F3F] rounded-lg bg-[#1F1F1F]"
@@ -290,7 +290,78 @@ $user_id = $_SESSION['user_id'];
 
         <!-- <input class="h-full w-full bg-transparent text-white" type="text"> -->
       </section>
+
+      <div class="modal max-w-[400px] max-h-[300px] rounded border border-zinc-700 absolute top-0 bottom-32 left-0 right-0 m-auto backdrop-blur-md bg-black/60 flex flex-col justify-center items-center hidden">
+      <form id="priorityForm" class="gap-[16px] flex flex-col">
+      <span class="text-white text-2xl font-semi-bold">Qual a prioridade da tarefa?</span>
+      <hr class="opacity-[30%]">
+      <div>
+      <div class="radio-button urgent text-zinc-500 text-xl">
+        <input type="radio" class="w-4 h-4" name="priority" id="urgent" value="urgente" />
+        <span for="urgent">Urgente</span>
+      </div>
+
+      <div class="radio-button green text-zinc-500 text-xl">
+        <input type="radio" class="w-4 h-4" name="priority" id="green" value="ainda há tempo" />
+        <span for="green">Ainda há tempo</span>
+      </div>
+
+      <div class="radio-button yellow text-zinc-500 text-xl">
+        <input type="radio" class="w-4 h-4" name="priority" id="yellow" value="atenção" />
+        <span for="yellow">Atenção</span>
+      </div>
+      </div>
+
+      <button class="py-3 px-6 bg-white hover:bg-zinc-200 transition-[.2s] rounded-[8px] w-fit h-fit font-medium text-lg" type="submit">Salvar Prioridade</button>
+    </form>
+
+    <script>
+      // Pega o ID da tarefa via URL
+      const taskId = new URLSearchParams(window.location.search).get("task_id");
+
+      // Lidar com a escolha da prioridade
+      document
+        .getElementById("priorityForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const priority = document.querySelector(
+            'input[name="priority"]:checked'
+          ).value;
+
+          // Enviar a prioridade para o servidor
+          fetch(
+            `notes.php?action=updatePriority&task_id=${taskId}&priority=${encodeURIComponent(
+              priority
+            )}`,
+            {
+              method: "GET",
+            }
+          )
+            .then((response) => response.text()) // Usar .text() para ver a resposta bruta
+            .then((data) => {
+              console.log(data); // Log a resposta do servidor
+              try {
+                const jsonData = JSON.parse(data); // Tenta fazer o parse do JSON
+                if (jsonData.status === "success") {
+                  alert("Prioridade definida com sucesso!");
+                } else {
+                  alert("Erro ao salvar prioridade!");
+                }
+              } catch (e) {
+                alert("Erro ao processar a resposta: " + e.message);
+              }
+            })
+            .catch((error) =>
+              console.error("Erro ao definir prioridade:", error)
+            );
+        });
+    </script>
+
+      </div>
+
     </main>
+  
   </body>
   <script src="..//function/script.js"></script>
 </html>

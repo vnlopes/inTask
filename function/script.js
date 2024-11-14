@@ -11,35 +11,65 @@ let textIn = document.querySelector("textarea");
 let titleIn = document.querySelector(".title");
 
 console.log("currentUserId:", currentUserId); // Verifique se o valor é correto
+const modalPriority = document.querySelector(".modal");
 
 // Função para adicionar tarefa
 const addTask = () => {
+  modalPriority.classList.remove("hidden"); // Exibe o modal de prioridade
+};
+
+// Função que será chamada quando o formulário for enviado
+const handleSubmit = (event) => {
+  event.preventDefault(); // Previne o envio tradicional do formulário (recarregamento da página)
+  modalPriority.classList.add("hidden"); // Exibe o modal de prioridade
+  // Verifica se os campos de título e texto estão preenchidos
   if (textIn.value === "" || titleIn.value === "") {
     alert("Você deve digitar algo");
-  } else {
-    document.querySelector(".bodyText").classList.add("hidden");
-
-    if (editingTaskId) {
-      updateTask(editingTaskId); // Chama para atualizar a tarefa
-    } else {
-      newTask(); // Chama para adicionar uma nova tarefa
-    }
-
-    // Limpa os campos de entrada após a ação
-    titleIn.value = "";
-    textIn.value = "";
+    return; // Impede a execução do código abaixo
   }
+
+  // Verifica se uma prioridade foi selecionada
+  const priority = document.querySelector('input[name="priority"]:checked');
+  if (!priority) {
+    alert("Por favor, selecione uma prioridade.");
+    return; // Impede a execução do código abaixo
+  }
+
+  // Se tudo estiver certo, esconde o conteúdo do corpo (pode ser parte do modal ou da tela)
+  document.querySelector(".bodyText").classList.add("hidden");
+
+  // Lógica para adicionar ou atualizar a tarefa com base na prioridade
+  if (editingTaskId) {
+    updateTask(editingTaskId); // Chama para atualizar a tarefa
+  } else {
+    newTask(); // Chama para adicionar uma nova tarefa
+  }
+
+  // Limpa os campos de entrada após a ação
+  titleIn.value = "";
+  textIn.value = "";
 };
+
+// Obtém o formulário
+const form = document.getElementById("priorityForm");
+
+// Adiciona o ouvinte de evento para o envio do formulário
+form.addEventListener("submit", handleSubmit);
 
 // Função para criar uma nova tarefa
 const newTask = () => {
   const title = titleIn.value;
   const content = textIn.value;
+  const priority = document.querySelector(
+    'input[name="priority"]:checked'
+  ).value;
 
   fetch(
     `notes.php?action=add&user_id=${currentUserId}&title=${encodeURIComponent(
       title
-    )}&content=${encodeURIComponent(content)}`,
+    )}&content=${encodeURIComponent(content)}&priority=${encodeURIComponent(
+      priority
+    )}`,
     {
       method: "GET",
     }
@@ -47,7 +77,7 @@ const newTask = () => {
     .then((response) => response.json())
     .then((data) => {
       if (data.status === "success") {
-        const data = new Date();
+        const date = new Date();
         const months = [
           "Jan",
           "Fev",
@@ -62,22 +92,21 @@ const newTask = () => {
           "Nov",
           "Dez",
         ];
-        let month = months[data.getMonth()];
+        const month = months[date.getMonth()];
 
         const newNote = {
           id: data.id,
           title: title,
           content: content,
-          date: `${month} ${data.getDate()}, ${data.getFullYear()}`,
+          date: `${month} ${date.getDate()}, ${date.getFullYear()}`,
+          priority: priority,
         };
 
-        renderTask(newNote); // Renderiza a nova tarefa
-        clearInputs(); // Limpa os campos de entrada
-
-        // Redireciona para a página de definição de prioridade
-        // window.location.href = `define-priority.html?task_id=${data.id}`;
+        renderTask(newNote);
+        clearInputs();
+        modalPriority.classList.add("hidden"); // Oculta o modal após salvar
       } else {
-        alert(data.message); // Mensagem de erro se a inserção falhar
+        alert(data.message);
       }
     })
     .catch((error) => console.error("Erro ao adicionar nota:", error));
@@ -124,17 +153,17 @@ const renderTask = (task) => {
   taskDiv.setAttribute("data-task-id", task.id);
   receiveBox.appendChild(taskDiv);
 
-  // Criação do header
+  // Header com título
   let header = document.createElement("header");
   header.classList.add("headerBox");
   taskDiv.appendChild(header);
 
-  // Adiciona o título da tarefa no header
   let title = document.createElement("span");
   title.classList.add("titleBox");
   title.textContent = task.title;
   header.appendChild(title);
 
+  // Rodapé com data e prioridade
   let footer = document.createElement("footer");
   footer.classList.add("footerBox", "justify-between");
   taskDiv.appendChild(footer);
@@ -153,6 +182,37 @@ const renderTask = (task) => {
   date.textContent = task.date;
   divCalDate.appendChild(date);
 
+  // Indicador de prioridade
+  let priorityIndicator = document.createElement("span");
+  // priorityIndicator.classList.add(
+  //   "w-[15px]",
+  //   "h-[15px]",
+  //   "bg-[#ff220080]",
+  //   "rounded-full",
+  //   "border-solid",
+  //   "border-[#ff2200]",
+  //   "border-2"
+  // );
+  priorityIndicator.classList.add(
+    "priorityIndicator",
+    `priority-${task.priority}`
+  );
+  priorityIndicator.textContent = task.priority;
+  footer.appendChild(priorityIndicator);
+
+  // let radio = document.createElement("div");
+  // radio.classList.add(
+  //   "w-[15px]",
+  //   "h-[15px]",
+  //   "bg-[#ff220080]",
+  //   "rounded-full",
+  //   "border-solid",
+  //   "border-[#ff2200]",
+  //   "border-2"
+  // );
+  // footer.appendChild(radio);
+
+  // Exibe o conteúdo da tarefa
   let receiveText = document.createElement("main");
   receiveText.classList.add("receiveText", "h-full");
   taskDiv.appendChild(receiveText);
@@ -162,30 +222,18 @@ const renderTask = (task) => {
   text.textContent = task.content.slice(0, 156);
   receiveText.appendChild(text);
 
-  let radio = document.createElement("div");
-  radio.classList.add(
-    "w-[15px]",
-    "h-[15px]",
-    "bg-[#ff220080]",
-    "rounded-full",
-    "border-solid",
-    "border-[#ff2200]",
-    "border-2"
-  );
-  footer.appendChild(radio);
-
   receiveText.addEventListener("click", () => {
-    document.querySelector(".bodyText").classList.remove("hidden"); // Exibe a área de edição
-    titleIn.value = task.title; // Preenche o campo de título com o título da tarefa
-    textIn.value = task.content; // Preenche o campo de texto com o conteúdo da tarefa
-    editingTaskId = task.id; // Define o ID da tarefa que está sendo editada
+    document.querySelector(".bodyText").classList.remove("hidden");
+    titleIn.value = task.title;
+    textIn.value = task.content;
+    editingTaskId = task.id;
   });
 
   title.addEventListener("click", () => {
-    document.querySelector(".bodyText").classList.remove("hidden"); // Exibe a área de edição
-    titleIn.value = task.title; // Preenche o campo de título com o título da tarefa
-    textIn.value = task.content; // Preenche o campo de texto com o conteúdo da tarefa
-    editingTaskId = task.id; // Define o ID da tarefa que está sendo editada
+    document.querySelector(".bodyText").classList.remove("hidden");
+    titleIn.value = task.title;
+    textIn.value = task.content;
+    editingTaskId = task.id;
   });
 };
 
