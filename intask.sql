@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 14-Nov-2024 às 16:01
+-- Tempo de geração: 22-Nov-2024 às 16:47
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -33,8 +33,38 @@ CREATE TABLE `notes` (
   `title` varchar(255) NOT NULL,
   `content` text NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `priority` enum('Urgente','Ainda há tempo','Atenção') NOT NULL
+  `priority` enum('Urgente','Deboa','Atenção') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `notes`
+--
+
+INSERT INTO `notes` (`id`, `user_id`, `title`, `content`, `date`, `priority`) VALUES
+(72, 1, 'dwadawdawd', 'dawdawdaw', '2024-11-22 15:41:36', 'Atenção');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_admin` tinyint(1) DEFAULT 0,
+  `role` enum('admin','user') DEFAULT 'user'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `created_at`, `is_admin`, `role`) VALUES
+(1, 'vnlopes', '$2y$10$s5v7DChohMGYXBTS12oh8eaJ9WoImPe46TJ17C5qawdIQwNAV8SE6', '2024-11-07 14:16:48', 0, 'user'),
+(4, 'rafa', '$2y$10$ChmQkynUbAebuz808rvx5.bl3OXKyvt/n8P6fzTAKbcDy1fPPQHvm', '2024-11-07 15:37:43', 0, 'user');
 
 --
 -- Índices para tabelas despejadas
@@ -48,6 +78,12 @@ ALTER TABLE `notes`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Índices para tabela `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de tabelas despejadas
 --
 
@@ -55,7 +91,13 @@ ALTER TABLE `notes`
 -- AUTO_INCREMENT de tabela `notes`
 --
 ALTER TABLE `notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+
+--
+-- AUTO_INCREMENT de tabela `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restrições para despejos de tabelas

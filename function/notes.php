@@ -18,8 +18,9 @@ try {
     if ($action == 'add') {
         $title = $_GET['title'] ?? ''; // Adicionando valor padrão para evitar erros
         $content = $_GET['content'] ?? ''; // Adicionando valor padrão para evitar erros
-        $stmt = $conn->prepare("INSERT INTO notes (user_id, title, content) VALUES (:user_id, :title, :content)");
-        $stmt->execute(['user_id' => $user_id, 'title' => $title, 'content' => $content]);
+        $priority = $_GET['priority'] ?? '';
+        $stmt = $conn->prepare("INSERT INTO notes (user_id, title, content, priority) VALUES (:user_id, :title, :content, :priority)");
+        $stmt->execute(['user_id' => $user_id, 'title' => $title, 'content' => $content,'priority' => $priority]);
         echo json_encode(['status' => 'success', 'message' => 'Nota adicionada com sucesso.']);
         
     // Ação para obter notas
@@ -32,24 +33,30 @@ try {
         echo json_encode($notes);
         
     // Ação para atualizar notas
-    } elseif ($action == 'updatePriority') {
-        $taskId = $_GET['task_id'];
-        $priority = $_GET['priority'];
-        
-        try {
-            // Atualizar a prioridade da tarefa no banco de dados
-            $stmt = $conn->prepare("UPDATE notes SET priority = :priority WHERE id = :task_id");
-            $stmt->execute(['priority' => $priority, 'task_id' => $taskId]);
+    } 
     
-            // Retornar resposta JSON de sucesso
-            echo json_encode(['status' => 'success', 'message' => 'Prioridade atualizada com sucesso.']);
-        } catch (Exception $e) {
-            // Caso ocorra um erro, retornar a mensagem de erro em formato JSON
-            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-        }
-        exit;
-      // Não continuar processando o script após retornar a resposta
-    } elseif ($action == 'update') {
+    // elseif ($action == 'updatePriority') {
+    //     $taskId = $_GET['task_id'];
+    //     $priority = $_GET['priority'];
+    
+    //     // Verificação no log
+    //     error_log("Prioridade recebida no PHP: " . $priority); // Verifique se o valor da prioridade é correto
+    
+    //     try {
+    //         // Atualizar a prioridade da tarefa no banco de dados
+    //         $stmt = $conn->prepare("UPDATE notes SET priority = :priority WHERE id = :task_id");
+    //         $stmt->execute(['priority' => $priority, 'task_id' => $taskId]);
+    
+    //         // Retornar resposta JSON de sucesso
+    //         echo json_encode(['status' => 'success', 'message' => 'Prioridade atualizada com sucesso.']);
+    //     } catch (Exception $e) {
+    //         // Caso ocorra um erro, retornar a mensagem de erro em formato JSON
+    //         echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+    //     }
+    //     exit;
+    // }
+    
+     elseif ($action == 'update') {
         $id = $_GET['id'] ?? 0; // Adicionando valor padrão para evitar erros
         $title = $_GET['title'] ?? ''; // Adicionando valor padrão para evitar erros
         $content = $_GET['content'] ?? ''; // Adicionando valor padrão para evitar erros

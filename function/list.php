@@ -293,70 +293,67 @@ $user_id = $_SESSION['user_id'];
 
       <div class="modal max-w-[400px] max-h-[300px] rounded border border-zinc-700 absolute top-0 bottom-32 left-0 right-0 m-auto backdrop-blur-md bg-black/60 flex flex-col justify-center items-center hidden">
       <form id="priorityForm" class="gap-[16px] flex flex-col">
-      <span class="text-white text-2xl font-semi-bold">Qual a prioridade da tarefa?</span>
-      <hr class="opacity-[30%]">
-      <div>
-      <div class="radio-button urgent text-zinc-500 text-xl">
-        <input type="radio" class="w-4 h-4" name="priority" id="urgent" value="urgente" />
-        <span for="urgent">Urgente</span>
-      </div>
+  <span class="text-white text-2xl font-semi-bold">Qual a prioridade da tarefa?</span>
+  <hr class="opacity-[30%]">
+  <div>
+    <div class="radio-button urgent text-zinc-500 text-xl">
+      <input type="radio" class="w-4 h-4" name="priority" id="urgent" value="Urgente" />
+      <span for="urgent">Urgente</span>
+    </div>
 
-      <div class="radio-button green text-zinc-500 text-xl">
-        <input type="radio" class="w-4 h-4" name="priority" id="green" value="ainda há tempo" />
-        <span for="green">Ainda há tempo</span>
-      </div>
+    <div class="radio-button green text-zinc-500 text-xl">
+      <input type="radio" class="w-4 h-4" name="priority" id="green" value="Deboa" />
+      <span for="green">Ainda há tempo</span>
+    </div>
 
-      <div class="radio-button yellow text-zinc-500 text-xl">
-        <input type="radio" class="w-4 h-4" name="priority" id="yellow" value="atenção" />
-        <span for="yellow">Atenção</span>
-      </div>
-      </div>
+    <div class="radio-button yellow text-zinc-500 text-xl">
+      <input type="radio" class="w-4 h-4" name="priority" id="yellow" value="Atenção" />
+      <span for="yellow">Atenção</span>
+    </div>
+  </div>
 
-      <button class="py-3 px-6 bg-white hover:bg-zinc-200 transition-[.2s] rounded-[8px] w-fit h-fit font-medium text-lg" type="submit">Salvar Prioridade</button>
-    </form>
+  <button class="py-3 px-6 bg-white hover:bg-zinc-200 transition-[.2s] rounded-[8px] w-fit h-fit font-medium text-lg" type="submit">Salvar Prioridade</button>
+</form>
 
-    <script>
+    <!-- <script>
       // Pega o ID da tarefa via URL
       const taskId = new URLSearchParams(window.location.search).get("task_id");
 
       // Lidar com a escolha da prioridade
       document
-        .getElementById("priorityForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
+  .getElementById("priorityForm")
+  .addEventListener("submit", function (e) {
+    e.preventDefault();
 
-          const priority = document.querySelector(
-            'input[name="priority"]:checked'
-          ).value;
+    const priority = document.querySelector('input[name="priority"]:checked').value;
+    console.log("Prioridade selecionada: ", priority); // Verifique o valor aqui
 
-          // Enviar a prioridade para o servidor
-          fetch(
-            `notes.php?action=updatePriority&task_id=${taskId}&priority=${encodeURIComponent(
-              priority
-            )}`,
-            {
-              method: "GET",
-            }
-          )
-            .then((response) => response.text()) // Usar .text() para ver a resposta bruta
-            .then((data) => {
-              console.log(data); // Log a resposta do servidor
-              try {
-                const jsonData = JSON.parse(data); // Tenta fazer o parse do JSON
-                if (jsonData.status === "success") {
-                  alert("Prioridade definida com sucesso!");
-                } else {
-                  alert("Erro ao salvar prioridade!");
-                }
-              } catch (e) {
-                alert("Erro ao processar a resposta: " + e.message);
-              }
-            })
-            .catch((error) =>
-              console.error("Erro ao definir prioridade:", error)
-            );
-        });
-    </script>
+    // Enviar a prioridade para o servidor
+    fetch(
+      `notes.php?action=updatePriority&task_id=${taskId}&priority=${encodeURIComponent(priority)}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.text())
+      .then((data) => {
+        console.log(data); // Verifique a resposta do servidor
+        try {
+          const jsonData = JSON.parse(data);
+          if (jsonData.status === "success") {
+            alert("Prioridade definida com sucesso!");
+          } else {
+            alert("Erro ao salvar prioridade!");
+          }
+        } catch (e) {
+          alert("Erro ao processar a resposta: " + e.message);
+        }
+      })
+      .catch((error) => console.error("Erro ao definir prioridade:", error));
+  });
+
+
+    </script> -->
 
       </div>
 

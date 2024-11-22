@@ -64,6 +64,7 @@ const newTask = () => {
     'input[name="priority"]:checked'
   ).value;
 
+  // alert(encodeURIComponent(priority));
   fetch(
     `notes.php?action=add&user_id=${currentUserId}&title=${encodeURIComponent(
       title
@@ -101,6 +102,12 @@ const newTask = () => {
           date: `${month} ${date.getDate()}, ${date.getFullYear()}`,
           priority: priority,
         };
+
+        console.log({
+          title: title,
+          content: content,
+          priority: priority,
+        });
 
         renderTask(newNote);
         clearInputs();
@@ -193,12 +200,51 @@ const renderTask = (task) => {
   //   "border-[#ff2200]",
   //   "border-2"
   // );
+
   priorityIndicator.classList.add(
     "priorityIndicator",
     `priority-${task.priority}`
   );
   priorityIndicator.textContent = task.priority;
   footer.appendChild(priorityIndicator);
+  if (priorityIndicator.textContent == "Atenção") {
+    // alert("amarelo");
+    let radio = document.createElement("div");
+    radio.classList.add(
+      "w-[15px]",
+      "h-[15px]",
+      "bg-[#ffa30080]",
+      "rounded-full",
+      "border-solid",
+      "border-[#ffa300]",
+      "border-2"
+    );
+    footer.appendChild(radio);
+  } else if (priorityIndicator.textContent == "Urgente") {
+    let radio = document.createElement("div");
+    radio.classList.add(
+      "w-[15px]",
+      "h-[15px]",
+      "bg-[#ff220080]",
+      "rounded-full",
+      "border-solid",
+      "border-[#ff2200]",
+      "border-2"
+    );
+    footer.appendChild(radio);
+  } else {
+    let radio = document.createElement("div");
+    radio.classList.add(
+      "w-[15px]",
+      "h-[15px]",
+      "bg-[#01a22a80]",
+      "rounded-full",
+      "border-solid",
+      "border-[#01a22a]",
+      "border-2"
+    );
+    footer.appendChild(radio);
+  }
 
   // let radio = document.createElement("div");
   // radio.classList.add(
