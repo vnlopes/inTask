@@ -99,7 +99,7 @@ const newTask = () => {
           id: data.id,
           title: title,
           content: content,
-          date: `${month} ${date.getDate()}, ${date.getFullYear()}`,
+          date: `${date.getDate()} ${month}, ${date.getFullYear()}`,
           priority: priority,
         };
 
@@ -189,6 +189,15 @@ const renderTask = (task) => {
   date.textContent = task.date;
   divCalDate.appendChild(date);
 
+  let receivePriority = document.createElement("div");
+  receivePriority.classList.add(
+    "flex",
+    "flex-row-reverse",
+    "gap-[8px]",
+    "items-center"
+  );
+  footer.appendChild(receivePriority);
+
   // Indicador de prioridade
   let priorityIndicator = document.createElement("span");
   // priorityIndicator.classList.add(
@@ -206,7 +215,7 @@ const renderTask = (task) => {
     `priority-${task.priority}`
   );
   priorityIndicator.textContent = task.priority;
-  footer.appendChild(priorityIndicator);
+  receivePriority.appendChild(priorityIndicator);
   if (priorityIndicator.textContent == "Atenção") {
     // alert("amarelo");
     let radio = document.createElement("div");
@@ -219,7 +228,7 @@ const renderTask = (task) => {
       "border-[#ffa300]",
       "border-2"
     );
-    footer.appendChild(radio);
+    receivePriority.appendChild(radio);
   } else if (priorityIndicator.textContent == "Urgente") {
     let radio = document.createElement("div");
     radio.classList.add(
@@ -231,7 +240,7 @@ const renderTask = (task) => {
       "border-[#ff2200]",
       "border-2"
     );
-    footer.appendChild(radio);
+    receivePriority.appendChild(radio);
   } else {
     let radio = document.createElement("div");
     radio.classList.add(
@@ -243,7 +252,7 @@ const renderTask = (task) => {
       "border-[#01a22a]",
       "border-2"
     );
-    footer.appendChild(radio);
+    receivePriority.appendChild(radio);
   }
 
   // let radio = document.createElement("div");

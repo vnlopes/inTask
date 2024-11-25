@@ -27,21 +27,16 @@ SET time_zone = "+00:00";
 -- Estrutura da tabela `notes`
 --
 
-CREATE TABLE `notes` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `content` text NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `priority` enum('Urgente','Deboa','Atenção') NOT NULL
+CREATE TABLE notes (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  user_id INT(11) NOT NULL,  -- Não há mais referência a users
+  title VARCHAR(255) NOT NULL,
+  content TEXT NOT NULL,
+  date DATETIME NOT NULL,  -- Usando DATETIME para armazenar a data
+  priority ENUM('Urgente', 'Deboa', 'Atenção') NOT NULL,
+  PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Extraindo dados da tabela `notes`
---
-
-INSERT INTO `notes` (`id`, `user_id`, `title`, `content`, `date`, `priority`) VALUES
-(72, 1, 'dwadawdawd', 'dawdawdaw', '2024-11-22 15:41:36', 'Atenção');
 
 -- --------------------------------------------------------
 
@@ -69,13 +64,6 @@ INSERT INTO `users` (`id`, `username`, `password`, `created_at`, `is_admin`, `ro
 --
 -- Índices para tabelas despejadas
 --
-
---
--- Índices para tabela `notes`
---
-ALTER TABLE `notes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
 
 --
 -- Índices para tabela `users`
