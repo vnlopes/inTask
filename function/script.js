@@ -78,7 +78,7 @@ const newTask = () => {
     .then((response) => response.json())
     .then((data) => {
       if (data.status === "success") {
-        const date = new Date();
+        const datan = new Date();
         const months = [
           "Jan",
           "Fev",
@@ -93,13 +93,13 @@ const newTask = () => {
           "Nov",
           "Dez",
         ];
-        const month = months[date.getMonth()];
+        const month = months[datan.getMonth()];
 
         const newNote = {
           id: data.id,
           title: title,
           content: content,
-          date: `${date.getDate()} ${month}, ${date.getFullYear()}`,
+          datan: `${datan.getDate()} ${month}, ${datan.getFullYear()}`,
           priority: priority,
         };
 
@@ -184,10 +184,10 @@ const renderTask = (task) => {
   calendar.style.width = "15px";
   divCalDate.appendChild(calendar);
 
-  let date = document.createElement("span");
-  date.classList.add("date");
-  date.textContent = task.date;
-  divCalDate.appendChild(date);
+  let datan = document.createElement("span");
+  datan.classList.add("datan");
+  datan.textContent = task.datan;
+  divCalDate.appendChild(datan);
 
   let receivePriority = document.createElement("div");
   receivePriority.classList.add(

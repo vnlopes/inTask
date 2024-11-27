@@ -291,7 +291,9 @@ $user_id = $_SESSION['user_id'];
         <!-- <input class="h-full w-full bg-transparent text-white" type="text"> -->
       </section>
 
-      <div class="modal max-w-[400px] max-h-[300px] rounded border border-zinc-700 absolute top-0 bottom-32 left-0 right-0 m-auto backdrop-blur-md bg-black/60 flex flex-col justify-center items-center hidden">
+      <div class="modal overflow-hidden w-screen h-screen absolute z-30 bg-black hidden">
+
+      <div class="max-w-[400px] max-h-[300px] rounded border border-zinc-700 absolute top-0 bottom-32 left-0 right-0 m-auto backdrop-blur-md bg-black/60 flex flex-col justify-center items-center">
       <form id="priorityForm" class="gap-[16px] flex flex-col">
   <span class="text-white text-2xl font-semi-bold">Qual a prioridade da tarefa?</span>
   <hr class="opacity-[30%]">
@@ -354,6 +356,8 @@ $user_id = $_SESSION['user_id'];
 
 
     </script> -->
+
+      </div>
 
       </div>
 

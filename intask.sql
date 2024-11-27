@@ -29,14 +29,13 @@ SET time_zone = "+00:00";
 
 CREATE TABLE notes (
   id INT(11) NOT NULL AUTO_INCREMENT,
-  user_id INT(11) NOT NULL,  -- Não há mais referência a users
+  user_id INT(11) NOT NULL,
   title VARCHAR(255) NOT NULL,
   content TEXT NOT NULL,
-  date DATETIME NOT NULL,  -- Usando DATETIME para armazenar a data
+  datan VARCHAR(12) NOT NULL DEFAULT DATE_FORMAT(CURDATE(), '%d %b, %Y'), -- Alteração do tipo e formato
   priority ENUM('Urgente', 'Deboa', 'Atenção') NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 
 -- --------------------------------------------------------
 
