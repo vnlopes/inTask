@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 22-Nov-2024 às 16:47
+-- Tempo de geração: 28-Nov-2024 às 14:21
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -27,15 +27,30 @@ SET time_zone = "+00:00";
 -- Estrutura da tabela `notes`
 --
 
-CREATE TABLE notes (
-  id INT(11) NOT NULL AUTO_INCREMENT,
-  user_id INT(11) NOT NULL,
-  title VARCHAR(255) NOT NULL,
-  content TEXT NOT NULL,
-  datan VARCHAR(12) NOT NULL DEFAULT DATE_FORMAT(CURDATE(), '%d %b, %Y'), -- Alteração do tipo e formato
-  priority ENUM('Urgente', 'Deboa', 'Atenção') NOT NULL,
-  PRIMARY KEY (id)
+CREATE TABLE `notes` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `datan` varchar(12) NOT NULL DEFAULT date_format(curdate(),'%d %b, %Y'),
+  `priority` enum('Urgente','Deboa','Atenção') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `notes`
+--
+
+INSERT INTO `notes` (`id`, `user_id`, `title`, `content`, `datan`, `priority`) VALUES
+(97, 1, 'Reunião de Trabalho', 'Revisar o relatório do projeto\nDiscutir prazos com a equipe\nAjustar orçamento', '28 Nov, 2024', 'Deboa'),
+(98, 1, 'Estudo de Programação', 'Revisar conceitos de SQL\nPraticar Python\nFazer exercícios sobre APIs', '28 Nov, 2024', 'Atenção'),
+(99, 1, 'Limpeza da Casa', 'Varrer a sala\nLavar a louça\nPassar pano no banheiro', '28 Nov, 2024', 'Urgente'),
+(100, 1, 'Compra de Presentes', 'Escolher presente para o amigo secreto\nComprar embrulho\nVerificar envio', '28 Nov, 2024', 'Deboa'),
+(101, 1, 'Consulta Médica', 'Marcar horário com o dentista\nLevar exames para revisão', '28 Nov, 2024', 'Urgente'),
+(102, 1, 'Compra de Roupas', 'Comprar camisa nova\nVerificar descontos em sapatos', '28 Nov, 2024', 'Atenção'),
+(103, 1, 'Organizar Escritório', 'Arrumar mesa\nArquivar documentos antigos\nLimpar computador', '28 Nov, 2024', 'Deboa'),
+(104, 1, 'Treino na Academia', 'Fazer cardio\nTreinar pernas\nAlongar após o treino', '28 Nov, 2024', 'Atenção'),
+(105, 1, 'Revisar Orçamento Familiar', 'Verificar despesas do mês\nPlanejar compras para o mês seguinte', '28 Nov, 2024', 'Urgente'),
+(106, 1, 'Planejamento de Viagem', 'Pesquisar passagens aéreas\nReservar hotel\nFazer checklist para viagem', '28 Nov, 2024', 'Deboa');
 
 -- --------------------------------------------------------
 
@@ -57,12 +72,18 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `created_at`, `is_admin`, `role`) VALUES
-(1, 'vnlopes', '$2y$10$s5v7DChohMGYXBTS12oh8eaJ9WoImPe46TJ17C5qawdIQwNAV8SE6', '2024-11-07 14:16:48', 0, 'user'),
-(4, 'rafa', '$2y$10$ChmQkynUbAebuz808rvx5.bl3OXKyvt/n8P6fzTAKbcDy1fPPQHvm', '2024-11-07 15:37:43', 0, 'user');
+(1, 'vnlopes', '$2y$10$s5v7DChohMGYXBTS12oh8eaJ9WoImPe46TJ17C5qawdIQwNAV8SE6', '2024-11-07 14:16:48', 0, 'user');
 
 --
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices para tabela `notes`
+--
+ALTER TABLE `notes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `notes_ibfk_1` (`user_id`);
 
 --
 -- Índices para tabela `users`
@@ -78,7 +99,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de tabela `notes`
 --
 ALTER TABLE `notes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT de tabela `users`
