@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </form>
     <p class="mt-4 text-white text-center">
           Ja possui uma conta?
-          <a href="redirect.html" class="text-[#FF2E00] hover:underline"
+          <a href="redirect.php" class="text-[#FF2E00] hover:underline"
             >Login</a
           >
         </p>
