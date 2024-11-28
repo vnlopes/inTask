@@ -3,7 +3,7 @@
 ?>
 
 <html lang="pt-br">
-<footer class="absolute flex flex-col bottom-0 w-full h-[157px]">
+<footer class="fixed bottom-0 flex flex-col w-full h-[157px]">
         <section
           class="h-[60%] border-t border-solid justify-center flex items-center border-zinc-900 bg-[#040404]"
         >
@@ -13,10 +13,10 @@
             </nav>
             <nav>
               <div class="lg:flex hidden gap-8">
-                <a class="text-white" href="">Documentação</a>
-                <a class="text-white" href="">Segurança</a>
-                <a class="text-white" href="">Status</a>
-                <a class="text-white" href="">Contato</a>
+                <a class="text-white" href="404.php">Documentação</a>
+                <a class="text-white" href="404.php">Segurança</a>
+                <a class="text-white" href="404.php">Status</a>
+                <a class="text-white" href="404.php">Contato</a>
               </div>
             </nav>
           </div>
@@ -30,9 +30,9 @@
             </nav>
             <nav>
               <div class="lg:flex gap-8 hidden">
-                <a class="text-white" href="">Termos</a>
-                <a class="text-white" href="">Politicas</a>
-                <a class="text-white" href="">Cookies</a>
+                <a class="text-white" href="404.php">Termos</a>
+                <a class="text-white" href="404.php">Politicas</a>
+                <a class="text-white" href="404.php">Cookies</a>
               </div>
             </nav>
           </div>

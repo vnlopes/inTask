@@ -12,10 +12,10 @@ class="justify-center items-center relative bg-[#040404] w-full flex h-[70px] bo
     <img src="./resources/images/logo.svg" alt="" />
   </a>
   <ul class="links font-medium hidden md:flex gap-8">
-    <a class="text-white" href="#">Inicio</a>
-    <a class="text-white" href="#">Pagamento</a>
-    <a class="text-white" href="#">Sobre</a>
-    <a class="text-white" href="#">Contato</a>
+    <a class="text-white" href="404.php">Inicio</a>
+    <a class="text-white" href="404.php">Pagamento</a>
+    <a class="text-white" href="404.php">Sobre</a>
+    <a class="text-white" href="404.php">Contato</a>
   </ul>
 
   <a
