@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="shortcut icon"
-      href="..//resources/images/logo-icon.svg"
+      href="./resources/images/logo-icon.svg"
       type="image/x-icon"
     />
   </head>
@@ -42,7 +42,7 @@
           />
           <button
             type="submit"
-            class="bg-gradient-to-r from-[#FF2E00] to-[#FF5C00] text-white py-2 px-4 rounded"
+            class="bg-gradient-to-r from-[#FF2E00] to-[#FF5C00] text-white py-2 px-4 rounded w-full"
           >
             Login
           </button>

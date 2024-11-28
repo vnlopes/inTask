@@ -61,11 +61,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registro</title>
+    <title>inTask - Registro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       rel="shortcut icon"
-      href="..//resources/images/logo-icon.svg"
+      href="./resources/images/logo-icon.svg"
       type="image/x-icon"
     />
   </head>
@@ -81,8 +81,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     ?>
 
       <div class="bg-[#1F1F1F] p-8 rounded-lg shadow-lg w-96 h-fit fixed top-0 bottom-32 left-0 right-0 m-auto">
+      <h1 class="text-2xl text-white font-bold mb-4 text-center">Registro</h1>
         <form method="POST" class="p-6 rounded-lg flex flex-col">
-        <h2 class="text-2xl text-white mb-4 text-center">Registro</h2>
+        <!-- <h2 class="text-2xl text-white mb-4 text-center">Registro</h2> -->
+        <h2 class="text-white text-2xl mb-4">Faça o registro</h2>
         
         <?php if (isset($_GET['success'])): ?>
             <p class="text-green-500 mb-4">Registro realizado com sucesso!.</p>
