@@ -29,7 +29,7 @@ $user_id = $_SESSION['user_id'];
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Não deixe suas tarefas para depois.</title>
+    <title>inTask - Suas Notas</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../resources/css/style.css" />
     <link
@@ -159,7 +159,7 @@ $user_id = $_SESSION['user_id'];
         </section>
       </main>
 
-      <footer class="absolute flex flex-col bottom-0 w-full h-[157px]">
+'      <footer class="absolute flex flex-col bottom-0 w-full h-[157px]">
         <section
           class="h-[60%] border-t border-solid justify-center flex items-center border-zinc-900 bg-[#040404]"
         >
@@ -193,7 +193,7 @@ $user_id = $_SESSION['user_id'];
             </nav>
           </div>
         </section>
-      </footer>
+      </footer>'
 
       <section
         class="bodyText flex flex-col w-screen absolute h-full hidden bg-[#040404]"
@@ -204,7 +204,7 @@ $user_id = $_SESSION['user_id'];
           <nav
             class="center-header px-[70px] relative max-w-[1440px] w-full flex items-center justify-between"
           >
-            <a href="/index.html">
+            <a href="../index.html">
               <img src="..//resources/images/logo.svg" class="lg:h-auto h-[20px]" alt="" />
             </a>
             <ul class="links font-medium items-center flex gap-2 lg:gap-8">
