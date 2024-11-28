@@ -51,8 +51,7 @@ $user_id = $_SESSION['user_id'];
     </style>
 
     <script>
-    //     const userId = <?php echo json_encode($userId); ?>;
-    //     console.log("ID do usuário: ", userId);
+    //     <?php echo json_encode($userId); ?>;
     // </script>
 
     <script>
@@ -117,8 +116,6 @@ $user_id = $_SESSION['user_id'];
 
       </header>
 
-      <!-- <button id="logoutButton" class="py-3 px-6 bg-white hover:bg-zinc-200 transition-[.2s] rounded-[8px] w-fit h-fit font-medium text-xl  ">Logout</button> -->
-
       <body class="bg-black text-white flex flex-col items-center justify-center h-screen">
 
     <div id="welcomePopup" class="popup">
@@ -142,11 +139,7 @@ $user_id = $_SESSION['user_id'];
             >
               Adicionar tarefa <span>+</span>
             </button>
-            <!-- <button
-              class="bg-[#1F1F1F] rounded-lg text-black font-medium justify-center border border-solid border-[#3F3F3F] text-sm w-[42px] h-[42px] flex gap-2 items-center"
-            >
-              <img src="/resources/images/pen.svg" alt="" />
-            </button> -->
+
             <button onclick="addRemoveIcon()" class="bg-[#520005] rounded-lg text-black font-medium justify-center border border-solid border-[#FF0000] text-sm w-[42px] h-[42px] flex gap-2 items-center"
             >
               <img src="..//resources/images/trash.svg" alt="" />
@@ -160,29 +153,6 @@ $user_id = $_SESSION['user_id'];
             id="receivebox"
             class="flex gap-6 lg:px-20 flex-col sm:flex-col md:flex-row w-full flex-wrap"
           >
-            <!-- <div
-              class="textbox w-[350px] relative h-[220px] border border-solid border-[#3F3F3F] rounded-lg bg-[#1F1F1F]"
-            >
-              <header class="w-full h-[50px] mt-3 flex items-center pl-6">
-                <span class="text-white text-2xl">Welcome</span>
-              </header>
-              <main class="w-full px-6">
-                <span class="text-[#ACACAC] font-regular text-sm"
-                  >Bem-vindo ao inTask! Estamos extremamente felizes em tê-lo(a)
-                  a bordo, pronto(a) para começar...</span
-                >
-              </main>
-              <footer
-                class="h-[50px] gap-2 w-full flex items-center px-4 border-t border-solid border-[#3F3F3F] absolute bottom-0"
-              >
-                <img
-                  src="..//resources/images/calendar.svg"
-                  class="w-[15px]"
-                  alt=""
-                />
-                <span class="text-[#ACACAC] text-sm">Abr 4, 2024</span>
-              </footer>
-            </div> -->
           </section>
 
           <!-- fim notas -->
@@ -288,10 +258,9 @@ $user_id = $_SESSION['user_id'];
           rows="10"
         ></textarea>
 
-        <!-- <input class="h-full w-full bg-transparent text-white" type="text"> -->
       </section>
 
-      <div class="modal overflow-hidden w-screen h-screen absolute z-30 bg-black hidden">
+      <div class="modal w-screen h-screen fixed z-30 hidden">
 
       <div class="max-w-[400px] max-h-[300px] rounded border border-zinc-700 absolute top-0 bottom-32 left-0 right-0 m-auto backdrop-blur-md bg-black/60 flex flex-col justify-center items-center">
       <form id="priorityForm" class="gap-[16px] flex flex-col">
@@ -316,51 +285,8 @@ $user_id = $_SESSION['user_id'];
 
   <button class="py-3 px-6 bg-white hover:bg-zinc-200 transition-[.2s] rounded-[8px] w-fit h-fit font-medium text-lg" type="submit">Salvar Prioridade</button>
 </form>
-
-    <!-- <script>
-      // Pega o ID da tarefa via URL
-      const taskId = new URLSearchParams(window.location.search).get("task_id");
-
-      // Lidar com a escolha da prioridade
-      document
-  .getElementById("priorityForm")
-  .addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const priority = document.querySelector('input[name="priority"]:checked').value;
-    console.log("Prioridade selecionada: ", priority); // Verifique o valor aqui
-
-    // Enviar a prioridade para o servidor
-    fetch(
-      `notes.php?action=updatePriority&task_id=${taskId}&priority=${encodeURIComponent(priority)}`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.text())
-      .then((data) => {
-        console.log(data); // Verifique a resposta do servidor
-        try {
-          const jsonData = JSON.parse(data);
-          if (jsonData.status === "success") {
-            alert("Prioridade definida com sucesso!");
-          } else {
-            alert("Erro ao salvar prioridade!");
-          }
-        } catch (e) {
-          alert("Erro ao processar a resposta: " + e.message);
-        }
-      })
-      .catch((error) => console.error("Erro ao definir prioridade:", error));
-  });
-
-
-    </script> -->
-
       </div>
-
       </div>
-
     </main>
   
   </body>

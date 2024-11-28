@@ -99,7 +99,6 @@ body::before {
 
 
 .x{
-  content: url(/resources/images/x.svg);
   position: absolute;
   width: 30px;
   height: 30px;

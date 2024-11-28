@@ -64,7 +64,6 @@ const newTask = () => {
     'input[name="priority"]:checked'
   ).value;
 
-  // alert(encodeURIComponent(priority));
   fetch(
     `notes.php?action=add&user_id=${currentUserId}&title=${encodeURIComponent(
       title
@@ -134,7 +133,6 @@ const saveTask = (task) => {
     }),
   });
 };
-//localhost/inTask/function/notes.php?action=delete&id=1
 http: function remover(id) {
   fetch(`notes.php?action=delete&id=${id}`, {
     method: "GET",
@@ -200,15 +198,6 @@ const renderTask = (task) => {
 
   // Indicador de prioridade
   let priorityIndicator = document.createElement("span");
-  // priorityIndicator.classList.add(
-  //   "w-[15px]",
-  //   "h-[15px]",
-  //   "bg-[#ff220080]",
-  //   "rounded-full",
-  //   "border-solid",
-  //   "border-[#ff2200]",
-  //   "border-2"
-  // );
 
   priorityIndicator.classList.add(
     "priorityIndicator",
@@ -217,7 +206,6 @@ const renderTask = (task) => {
   priorityIndicator.textContent = task.priority;
   receivePriority.appendChild(priorityIndicator);
   if (priorityIndicator.textContent == "Atenção") {
-    // alert("amarelo");
     let radio = document.createElement("div");
     radio.classList.add(
       "w-[15px]",
@@ -254,18 +242,6 @@ const renderTask = (task) => {
     );
     receivePriority.appendChild(radio);
   }
-
-  // let radio = document.createElement("div");
-  // radio.classList.add(
-  //   "w-[15px]",
-  //   "h-[15px]",
-  //   "bg-[#ff220080]",
-  //   "rounded-full",
-  //   "border-solid",
-  //   "border-[#ff2200]",
-  //   "border-2"
-  // );
-  // footer.appendChild(radio);
 
   // Exibe o conteúdo da tarefa
   let receiveText = document.createElement("main");
@@ -305,9 +281,26 @@ const addRemoveIcon = (header, taskId) => {
       existingIcon.remove();
     } else {
       // Se o ícone de remoção não existe, cria e adiciona
-      let x = document.createElement("img");
+      let x = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       x.classList.add("x", "absolute", "z-10");
-      x.src = "..//resources/images/x.svg";
+      x.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+      x.setAttribute("width", "10");
+      x.setAttribute("height", "10");
+      x.setAttribute("fill", "#ACACAC");
+      x.setAttribute("viewBox", "0 0 256 256");
+      const path = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "path"
+      );
+
+      // Define o atributo 'd' do <path>
+      path.setAttribute(
+        "d",
+        "M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"
+      );
+
+      // Adiciona o <path> ao <x>
+      x.appendChild(path);
 
       // Adiciona o evento de remoção
       x.addEventListener("click", (e) => {
@@ -395,30 +388,3 @@ searchInput.addEventListener("input", (e) => {
 
 // Carrega as tarefas armazenadas ao carregar a página
 document.addEventListener("DOMContentLoaded", loadTasks);
-
-// //salvar login:
-// const login = (userId) => {
-//   localStorage.setItem("currentUserId", userId); // Armazenando o ID do usuário no localStorage
-//   loadTasks(); // Carrega as tarefas assim que o usuário loga
-// };
-
-// document.addEventListener("DOMContentLoaded", () => {
-//   const currentUserId = localStorage.getItem("currentUserId"); // Verifica se há um usuário logado
-
-//   if (currentUserId) {
-//     console.log("Usuário logado com ID:", currentUserId);
-//     loadTasks(); // Carrega as tarefas do usuário
-//   } else {
-//     console.log("Usuário não está logado.");
-//     // Redireciona ou mostra uma tela de login
-//   }
-// });
-
-// //logout
-
-// const logout = () => {
-//   localStorage.removeItem("currentUserId"); // Remove o ID do usuário do localStorage
-//   window.location.reload(); // Recarrega a página ou redireciona para a tela de login
-// };
-
-// document.getElementById("logoutButton").addEventListener("click", logout);
